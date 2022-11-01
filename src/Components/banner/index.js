@@ -35,6 +35,7 @@ export default function Banner() {
 const Item = (props) => {
   return (
     <BannerContainer>
+      {/*any*/}
       <Image
         src={props.item.src}
         fill
