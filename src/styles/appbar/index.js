@@ -1,5 +1,5 @@
 import { colors, InputBase, List, Typography } from "@mui/material";
-import { styled, alpha } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import { Box, display } from "@mui/system";
 import { Colors } from "../../theme";
 

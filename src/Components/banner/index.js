@@ -39,7 +39,7 @@ const Item = (props) => {
       <Image
         src={props.item.src}
         fill
-        alt="banner"
+        alt={props.item.description}
         style={{ objectFit: "cover" }}
       ></Image>
     </BannerContainer>
