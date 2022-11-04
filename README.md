@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Gamerscart
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/9c3fe298-8a0d-41b7-8e67-f80da1e2e399/deploy-status)](https://app.netlify.com/sites/gamerscart/deploys)
 
 ## Getting Started
 
