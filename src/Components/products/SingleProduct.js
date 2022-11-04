@@ -23,17 +23,17 @@ export default function SingleProduct({ product, matches }) {
       <ProductMeta product={product} matches={matches}></ProductMeta>
     </Product>
   */}
-      <Card sx={{ maxWidth: 340 }}>
-        <CardMedia alt="green iguana" height="140">
+      <Card sx={{ maxWidth: 380 }}>
+        <CardMedia alt="green iguana" sx={{ height: "240px", width: "240px" }}>
           <div style={{ position: "relative", width: "100%", height: "100%" }}>
-            <Image src={product.image} layout="fill" objectFit="cover" />
+            <Image src={product.image} fill />
           </div>
         </CardMedia>
         <CardContent>
-          <Typography variant="h5" component="div" align="center">
+          <Typography variant="h6" component="div" align="center">
             {product.name}
           </Typography>
-          <Typography gutterBottom variant="h5" component="div" align="center">
+          <Typography variant="h5" component="div" align="center">
             ₹{product.price}
           </Typography>
         </CardContent>
