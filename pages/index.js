@@ -7,6 +7,7 @@ import PromotionBanner from "../src/Components/PromotionBanner";
 import styles from "../styles/Home.module.css";
 import Products from "../src/Components/products";
 import Parallax from "../src/Components/parallax";
+import Footer from "../src/Components/footer";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
         <PromotionBanner />
         <Products />
         <Parallax />
+        <Footer />
         {/*
           Appbar
           Banner

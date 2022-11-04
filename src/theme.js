@@ -8,7 +8,7 @@ export const Colors = {
   secondary: "#00aaba",
   success: "#4CAF50",
   info: "#00a2ff",
-  danger: "#FF5722",
+  danger: "#d13241",
   warning: "#FFC107",
   dark: "#0e1b20",
   light: "#aaa",
@@ -44,7 +44,7 @@ export const darkTheme = createTheme({
       main: Colors.secondary,
     },
     error: {
-      main: Colors.warning,
+      main: Colors.danger,
     },
     mode: "dark",
   },
@@ -75,7 +75,7 @@ export const lightTheme = createTheme({
       main: Colors.secondary,
     },
     error: {
-      main: Colors.warning,
+      main: Colors.danger,
     },
   },
 
