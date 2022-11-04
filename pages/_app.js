@@ -9,6 +9,7 @@ import ColorModeContext, {
   ColorModeContextProvider,
 } from "../src/context/ColorModeContext";
 import LightDarkTheme, { lightTheme } from "../src/theme";
+import "../styles/globals.css";
 
 // Client-side cache shared for the whole session
 // of the user in the browser.

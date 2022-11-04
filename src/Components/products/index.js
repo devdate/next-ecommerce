@@ -42,10 +42,9 @@ export default function Products() {
 
       <Grid
         container
-        spacing={1}
         justifyContent="center"
         sx={{
-          margin: "20px 4px 10px 4px",
+          margin: "20px 0px 10px 0px",
         }}
       >
         {renderProducts}
