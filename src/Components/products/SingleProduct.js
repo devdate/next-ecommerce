@@ -8,8 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 export default function SingleProduct({ product, matches }) {

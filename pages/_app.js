@@ -1,14 +1,10 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import Head from "next/head";
-import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider } from "@emotion/react";
 import createEmotionCache from "../src/createEmotionCache";
-import ColorModeContext, {
-  ColorModeContextProvider,
-} from "../src/context/ColorModeContext";
-import LightDarkTheme, { lightTheme } from "../src/theme";
+import { ColorModeContextProvider } from "../src/context/ColorModeContext";
 import "../styles/globals.css";
 import Appbar from "../src/Components/appbar";
 import Footer from "../src/Components/footer";

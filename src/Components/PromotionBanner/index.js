@@ -1,7 +1,7 @@
 import { Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { Box } from "@mui/system";
 import Image from "next/image";
-import Carousel from "react-material-ui-carousel";
 import promo1 from "../../../public/images/promotion-banner/promo1.jpg";
 import promo2 from "../../../public/images/promotion-banner/promo2.jpg";
 import { BannerContainerPromotion, PromoBannerEach } from "../../styles/banner";
@@ -25,7 +25,7 @@ export default function PromotionBanner() {
   ];
 
   return (
-    <BannerContainerPromotion>
+    <BannerContainerPromotion container>
       {items.map((item, i) => (
         <Item key={i} item={item} theme={theme} />
       ))}
@@ -36,8 +36,12 @@ export default function PromotionBanner() {
 const Item = (props) => {
   return (
     <PromoBannerEach
+      item
+      xs={12}
+      sm={6}
       sx={{
-        overflow: "hidden",
+        justifyContent: "center",
+        display: "flex",
       }}
     >
       <Typography
@@ -52,23 +56,21 @@ const Item = (props) => {
           top: "20%",
           paddingLeft: props.item.align === "left" ? "20px" : "0px",
           paddingRight: props.item.align === "left" ? "0px" : "20px",
+          zIndex: 1,
         }}
       >
         {props.item.description}
       </Typography>
-      <Image
-        src={props.item.src}
-        alt="any"
-        style={{
-          objectFit: "cover",
-        }}
-      ></Image>
+      <Box sx={{ width: "100%", height: "100%", position: "relative" }}>
+        <Image
+          src={props.item.src}
+          alt="any"
+          fill
+          style={{
+            objectFit: "cover",
+          }}
+        ></Image>
+      </Box>
     </PromoBannerEach>
   );
 };
-
-{
-  /*items.map((item, i) => (
-        <Item key={i} item={item} matches={matches} />
-      ))*/
-}

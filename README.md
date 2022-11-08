@@ -1,5 +1,7 @@
 # Gamerscart
 
+[Live Site](https://gamerscart.netlify.app/)
+
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9c3fe298-8a0d-41b7-8e67-f80da1e2e399/deploy-status)](https://app.netlify.com/sites/gamerscart/deploys)
 
 ## Getting Started

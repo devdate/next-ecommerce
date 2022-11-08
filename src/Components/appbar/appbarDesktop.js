@@ -1,24 +1,12 @@
-import {
-  AppbarContainer,
-  AppbarHeaderImage,
-  MyList,
-  Search,
-  SearchIconWrapper,
-  StyledInputBase,
-} from "../../styles/appbar";
+import { AppbarContainer, AppbarHeaderImage } from "../../styles/appbar";
 import logo from "../../../public/images/logo/logo.png";
 import logoDark from "../../../public/images/logo/logoDark.png";
 
 import Image from "next/image";
 import {
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
   InputAdornment,
-  TextField,
   IconButton,
   FormControl,
-  FilledInput,
   OutlinedInput,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";

@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const BannerContainer = styled(Box)(() => ({
@@ -10,7 +10,7 @@ export const BannerContainer = styled(Box)(() => ({
   height: "380px",
 }));
 
-export const BannerContainerPromotion = styled(Box)(() => ({
+export const BannerContainerPromotion = styled(Grid)(() => ({
   display: "flex",
   marginTop: 4,
   justifyContent: "center",
@@ -18,10 +18,11 @@ export const BannerContainerPromotion = styled(Box)(() => ({
   padding: "10px 12px",
 }));
 
-export const PromoBannerEach = styled(Box)((theme) => ({
+export const PromoBannerEach = styled(Grid)((theme) => ({
   padding: "10px",
   flexGrow: 1,
   position: "relative",
+  height: "200px",
 }));
 
 export default BannerContainer;

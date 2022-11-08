@@ -1,5 +1,4 @@
 import { Box, Divider, Grid, Typography } from "@mui/material";
-import footerImg from "../../../public/images/footer/footer.jpg";
 import logoDark from "../../../public/images/logo/logoDark.png";
 import Image from "next/image";
 import { FooterEachGridItem } from "../../styles/footer";
@@ -15,7 +14,7 @@ export default function Footer() {
         spacing={1}
         justifyContent="space-evenly"
         sx={{
-          margin: "20px 4px 10px 4px",
+          padding: "8px",
         }}
       >
         <FooterEachGridItem item xs={12} sm={6} md={4} lg={3}>
