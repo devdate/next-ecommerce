@@ -41,7 +41,7 @@ export const darkTheme = createTheme({
       main: Colors.primary,
     },
     secondary: {
-      main: Colors.secondary,
+      main: Colors.white,
     },
     error: {
       main: Colors.danger,
@@ -72,7 +72,7 @@ export const lightTheme = createTheme({
       main: Colors.primary,
     },
     secondary: {
-      main: Colors.secondary,
+      main: Colors.primary,
     },
     error: {
       main: Colors.danger,

@@ -9,6 +9,7 @@ export const FooterEachGridItem = styled(Grid)(() => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
+  textAlign: "center",
   flexGrow: 1,
-  justifyContent: "space-between",
+  justifyContent: "space-evenly",
 }));

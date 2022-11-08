@@ -17,7 +17,7 @@ export default function Footer() {
           padding: "8px",
         }}
       >
-        <FooterEachGridItem item xs={12} sm={6} md={4} lg={3}>
+        <FooterEachGridItem item xs={12} sm={12} md={3} lg={3}>
           <Box>
             <Image src={logoDark} width={179} height={34} alt="logo" />
           </Box>
@@ -32,7 +32,14 @@ export default function Footer() {
           flexItem
           sx={{ borderColor: "white" }}
         />
-        <FooterEachGridItem item xs={12} sm={6} md={4} lg={3}>
+        <FooterEachGridItem
+          item
+          xs={12}
+          sm={12}
+          md={3}
+          lg={3}
+          marginTop={{ xs: 5, sm: 5, md: 0, lg: 0 }}
+        >
           <Typography color="white" variant="h5">
             Store Information
           </Typography>
@@ -47,7 +54,14 @@ export default function Footer() {
           flexItem
           sx={{ borderColor: "white" }}
         />
-        <FooterEachGridItem item xs={12} sm={6} md={4} lg={3}>
+        <FooterEachGridItem
+          item
+          xs={12}
+          sm={12}
+          md={3}
+          lg={3}
+          marginTop={{ xs: 5, sm: 5, md: 0, lg: 0 }}
+        >
           <Typography color="white" variant="h5">
             Connect With Us
           </Typography>
