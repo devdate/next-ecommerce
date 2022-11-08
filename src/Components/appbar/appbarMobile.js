@@ -8,9 +8,11 @@ import logo from "../../../public/images/logo/logo.png";
 import logoDark from "../../../public/images/logo/logoDark.png";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 
 export default function AppbarMobile({ props }) {
-  const { mode } = useContext(ColorModeContext);
+  const { mode, toggleColorMode } = useContext(ColorModeContext);
 
   return (
     <AppbarContainer>
@@ -36,10 +38,21 @@ export default function AppbarMobile({ props }) {
       </AppbarHeaderImage>
       <IconButton
         disableRipple
+        onClick={toggleColorMode}
         sx={{
           flexGrow: 1,
           display: "flex",
           justifyContent: "right",
+        }}
+      >
+        {mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
+      </IconButton>
+      <IconButton
+        disableRipple
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          justifyContent: "center",
         }}
       >
         <ShoppingCartIcon fontSize="medium" />
