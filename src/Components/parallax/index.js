@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import parallaxImage from "../../../images/parallax/20.jpg";
+import parallaxImage from "../../../public/images/parallax/20.jpg";
 
 export default function Parallax() {
   return (

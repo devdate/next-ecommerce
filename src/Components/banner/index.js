@@ -2,8 +2,8 @@ import { useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
 import Carousel from "react-material-ui-carousel";
-import pubgBanner from "../../../assests/home-banner/41.jpg";
-import otherBanner from "../../../assests/home-banner/42.jpg";
+import pubgBanner from "../../../public/images/home-banner/41.jpg";
+import otherBanner from "../../../public/images/home-banner/42.jpg";
 import { BannerContainer } from "../../styles/banner";
 
 export default function Banner() {

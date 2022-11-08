@@ -6,8 +6,8 @@ import {
   SearchIconWrapper,
   StyledInputBase,
 } from "../../styles/appbar";
-import logo from "../../../assests/logo/logo.png";
-import logoDark from "../../../assests/logo/logoDark.png";
+import logo from "../../../public/images/logo/logo.png";
+import logoDark from "../../../public/images/logo/logoDark.png";
 
 import Image from "next/image";
 import {

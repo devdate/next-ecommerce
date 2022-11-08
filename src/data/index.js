@@ -1,14 +1,14 @@
-import codmw3 from "../../images/products/codmw3.jpg";
-import battlefield3 from "../../images/products/battlefield3.jpg";
-import prey from "../../images/products/prey.jpg";
-import halo from "../../images/products/halo.jpg";
-import halo4 from "../../images/products/halo4.jpg";
-import zelda from "../../images/products/zelda.jpg";
-import ivorygame from "../../images/products/ivorygame.jpg";
-import assc3 from "../../images/products/assc3.jpg";
-import destiny from "../../images/products/destiny.jpg";
-import civil6 from "../../images/products/civil6.jpg";
-import guildwars2 from "../../images/products/guildwars2.jpg";
+import codmw3 from "../../public/images/products/codmw3.jpg";
+import battlefield3 from "../../public/images/products/battlefield3.jpg";
+import prey from "../../public/images/products/prey.jpg";
+import halo from "../../public/images/products/halo.jpg";
+import halo4 from "../../public/images/products/halo4.jpg";
+import zelda from "../../public/images/products/zelda.jpg";
+import ivorygame from "../../public/images/products/ivorygame.jpg";
+import assc3 from "../../public/images/products/assc3.jpg";
+import destiny from "../../public/images/products/destiny.jpg";
+import civil6 from "../../public/images/products/civil6.jpg";
+import guildwars2 from "../../public/images/products/guildwars2.jpg";
 
 export const ProductsData = [
   {

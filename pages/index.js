@@ -18,12 +18,11 @@ export default function Home() {
       </Head>
 
       <Container maxWidth="xl" disableGutters>
-        <Appbar />
         <Banner />
         <PromotionBanner />
         <Products />
         <Parallax />
-        <Footer />
+
         {/*
           Appbar
           Banner

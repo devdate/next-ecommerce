@@ -2,8 +2,8 @@ import { Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
 import Carousel from "react-material-ui-carousel";
-import promo1 from "../../../assests/promotion-banner/promo1.jpg";
-import promo2 from "../../../assests/promotion-banner/promo2.jpg";
+import promo1 from "../../../public/images/promotion-banner/promo1.jpg";
+import promo2 from "../../../public/images/promotion-banner/promo2.jpg";
 import { BannerContainerPromotion, PromoBannerEach } from "../../styles/banner";
 
 export default function PromotionBanner() {

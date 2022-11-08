@@ -10,6 +10,8 @@ import ColorModeContext, {
 } from "../src/context/ColorModeContext";
 import LightDarkTheme, { lightTheme } from "../src/theme";
 import "../styles/globals.css";
+import Appbar from "../src/Components/appbar";
+import Footer from "../src/Components/footer";
 
 // Client-side cache shared for the whole session
 // of the user in the browser.
@@ -25,12 +27,10 @@ export default function MyApp(props) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ColorModeContextProvider>
-        {/* CssBaseline kickstart an elegant,
-				consistent, and simple baseline to
-				build upon. */}
-
         <CssBaseline />
+        <Appbar />
         <Component {...pageProps} />
+        <Footer />
       </ColorModeContextProvider>
     </CacheProvider>
   );

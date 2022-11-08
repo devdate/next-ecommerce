@@ -4,8 +4,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Image from "next/image";
 import { useContext } from "react";
 import ColorModeContext from "../../context/ColorModeContext";
-import logo from "../../../assests/logo/logo.png";
-import logoDark from "../../../assests/logo/logoDark.png";
+import logo from "../../../public/images/logo/logo.png";
+import logoDark from "../../../public/images/logo/logoDark.png";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
