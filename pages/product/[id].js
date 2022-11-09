@@ -6,11 +6,12 @@ import {
   Container,
   Grid,
   IconButton,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import Image from "next/image";
-import { Ps5Icon, XboxIcon } from "../../src/svgicons";
+import { Ps5Icon, WindowsIcon, XboxIcon } from "../../src/svgicons";
 
 const Product = () => {
   const game = {
@@ -39,16 +40,35 @@ const Product = () => {
           item
           sm={12}
           md={6}
-          sx={{ position: "relative", height: "402px", width: "100%" }}
+          sx={{
+            width: "100%",
+            justifyContent: "start",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+          }}
         >
-          <Image
-            src={game.image}
-            alt="any"
-            fill
-            style={{
-              objectFit: "contain",
+          <Box
+            sx={{
+              position: "relative",
+              height: "402px",
+              width: "334px",
             }}
-          ></Image>
+          >
+            <Image
+              src={game.image}
+              alt="any"
+              fill
+              style={{
+                objectFit: "contain",
+                borderRadius: "5%",
+              }}
+            ></Image>
+          </Box>
+          <Card sx={{ padding: "10px 30px", margin: "20px" }}>
+            <Typography variant="h6">₹{game.price}</Typography>
+          </Card>
         </Grid>
         <Grid
           item
@@ -94,38 +114,44 @@ const Product = () => {
               justifyContent="space-evenly"
               sx={{ display: "flex", flexWrap: "wrap" }}
             >
-              <Button
-                variant={gameVariant == 0 ? "contained" : "outlined"}
-                color="secondary"
-                onClick={() => changeGameVariant(0)}
-                sx={{
-                  flex: "1",
-                  minWidth: "130px",
-                  margin: "8px",
-                }}
-              >
-                <Ps5Icon viewBox="0 0 66 15" style={{ width: "85px" }} />
-              </Button>
-              <Button
-                variant={gameVariant == 1 ? "contained" : "outlined"}
-                color="secondary"
-                onClick={() => changeGameVariant(1)}
-                sx={{
-                  flex: "1",
-                  minWidth: "130px",
-                  margin: "8px",
-                }}
-              >
-                <XboxIcon viewBox="0 0 66 20" style={{ width: "85px" }} />
-              </Button>
-              <Button
-                variant={gameVariant == 2 ? "contained" : "outlined"}
-                color="secondary"
-                onClick={() => changeGameVariant(2)}
-                sx={{ flex: "1", minWidth: "130px", margin: "8px" }}
-              >
-                <Ps5Icon viewBox="0 0 66 15" style={{ width: "85px" }} />
-              </Button>
+              <Tooltip title="PlayStation®5" placement="top">
+                <Button
+                  variant={gameVariant == 0 ? "contained" : "outlined"}
+                  color="secondary"
+                  onClick={() => changeGameVariant(0)}
+                  sx={{
+                    flex: "1",
+                    minWidth: "130px",
+                    margin: "8px",
+                  }}
+                >
+                  <Ps5Icon viewBox="0 0 66 15" style={{ width: "85px" }} />
+                </Button>
+              </Tooltip>
+              <Tooltip title="Xbox" placement="top">
+                <Button
+                  variant={gameVariant == 1 ? "contained" : "outlined"}
+                  color="secondary"
+                  onClick={() => changeGameVariant(1)}
+                  sx={{
+                    flex: "1",
+                    minWidth: "130px",
+                    margin: "8px",
+                  }}
+                >
+                  <XboxIcon viewBox="0 0 66 20" style={{ width: "85px" }} />
+                </Button>
+              </Tooltip>
+              <Tooltip title="Windows® 7/8.1/10/11" placement="top">
+                <Button
+                  variant={gameVariant == 2 ? "contained" : "outlined"}
+                  color="secondary"
+                  onClick={() => changeGameVariant(2)}
+                  sx={{ flex: "1", minWidth: "130px", margin: "8px" }}
+                >
+                  <WindowsIcon viewBox="0 0 71 15" style={{ width: "85px" }} />
+                </Button>
+              </Tooltip>
             </Box>
           </Card>
         </Grid>

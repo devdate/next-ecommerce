@@ -68,8 +68,8 @@ export default function Actions() {
   //console.log(icons);
 
   return (
-    <CustomComponent>
+    <ActionIconsConatainerDesktop>
       <MyList type="row">{renderedIcons}</MyList>
-    </CustomComponent>
+    </ActionIconsConatainerDesktop>
   );
 }

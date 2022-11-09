@@ -62,6 +62,16 @@ export const darkTheme = createTheme({
         },
       },
     },
+    MuiUseMediaQuery: {
+      defaultProps: {
+        noSsr: true,
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        borderRadius: "10px",
+      },
+    },
   },
 });
 
@@ -90,6 +100,18 @@ export const lightTheme = createTheme({
       styleOverrides: {
         body: {
           transition: "all 0.3s linear",
+        },
+      },
+    },
+    MuiUseMediaQuery: {
+      defaultProps: {
+        noSsr: true,
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: "20px",
         },
       },
     },
