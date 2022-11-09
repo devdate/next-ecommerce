@@ -69,7 +69,9 @@ export const darkTheme = createTheme({
     },
     MuiCard: {
       styleOverrides: {
-        borderRadius: "10px",
+        root: {
+          borderRadius: "20px",
+        },
       },
     },
   },

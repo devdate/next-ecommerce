@@ -57,7 +57,7 @@ export default function AppbarMobile({ props }) {
       >
         <ShoppingCartIcon fontSize="medium" />
       </IconButton>
-      <Button disableRipple variant="outlined">
+      <Button disableRipple variant="outlined" color="secondary">
         Login
       </Button>
     </AppbarContainer>
