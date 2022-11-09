@@ -76,11 +76,12 @@ const AppMenu = ({ toOpen, setIsopen }) => {
       <List>
         {eachList.map((eachItem, index) => (
           <NextLink
+            key={eachItem.name}
             href={eachItem.link}
             passHref
             style={{ textDecoration: "none", textAlign: "center" }}
           >
-            <ListItem key={eachItem.name} disablePadding>
+            <ListItem disablePadding>
               <ListItemButton
                 LinkComponent={Link}
                 sx={{ justifyContent: "center" }}

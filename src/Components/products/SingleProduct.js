@@ -21,7 +21,7 @@ export default function SingleProduct({ product, matches }) {
       <Link href={`/product/${product.id}`}>
         <CardMedia alt="green iguana" sx={{ height: "240px", width: "240px" }}>
           <div style={{ position: "relative", width: "100%", height: "100%" }}>
-            <Image src={product.image} fill />
+            <Image src={product.image} fill alt={product.mame} />
           </div>
         </CardMedia>
       </Link>
