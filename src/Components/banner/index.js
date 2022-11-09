@@ -37,6 +37,7 @@ const Item = (props) => {
     <BannerContainer>
       {/*any*/}
       <Image
+        priority
         src={props.item.src}
         fill
         alt={props.item.description}

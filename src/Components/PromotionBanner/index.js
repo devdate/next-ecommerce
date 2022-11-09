@@ -63,6 +63,7 @@ const Item = (props) => {
       </Typography>
       <Box sx={{ width: "100%", height: "100%", position: "relative" }}>
         <Image
+          priority
           src={props.item.src}
           alt="any"
           fill
