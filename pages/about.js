@@ -14,7 +14,7 @@ import React, { useState } from "react";
 function About() {
   return (
     <Container maxWidth="xl" disableGutters>
-      <Grid container p={6}>
+      <Grid container padding="20px 16px">
         <Grid
           item
           sm={12}
@@ -52,12 +52,13 @@ function About() {
           md={6}
           sx={{ position: "relative" }}
           marginTop={{ xs: 4, sm: 4, md: 0, lg: 0 }}
+          paddingLeft={{ xs: 0, sm: 0, md: 4, lg: 4 }}
+          paddingRight={{ xs: 0, sm: 0, md: 4, lg: 4 }}
         >
           <Card
             sx={{
               textAlign: "center",
               padding: "24px",
-              margin: "0px 24px",
               wordWrap: "break-word",
             }}
           >
