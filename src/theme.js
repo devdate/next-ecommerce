@@ -74,6 +74,13 @@ export const darkTheme = createTheme({
         },
       },
     },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          borderColor: Colors.white,
+        },
+      },
+    },
   },
 });
 
@@ -114,6 +121,13 @@ export const lightTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: "20px",
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          border: `1px solid ${Colors.primary}`,
         },
       },
     },

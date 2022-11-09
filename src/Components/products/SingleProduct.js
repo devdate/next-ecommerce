@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import Link from "next/link";
 
 export default function SingleProduct({ product, matches }) {
   const onClickHandler = (addproduct) => {
@@ -16,12 +17,14 @@ export default function SingleProduct({ product, matches }) {
   };
 
   return (
-    <Card sx={{ maxWidth: 380 }}>
-      <CardMedia alt="green iguana" sx={{ height: "240px", width: "240px" }}>
-        <div style={{ position: "relative", width: "100%", height: "100%" }}>
-          <Image src={product.image} fill />
-        </div>
-      </CardMedia>
+    <Card sx={{ maxWidth: 380, marginTop: "10px", marginBottom: "10px" }}>
+      <Link href={`/product/${product.id}`}>
+        <CardMedia alt="green iguana" sx={{ height: "240px", width: "240px" }}>
+          <div style={{ position: "relative", width: "100%", height: "100%" }}>
+            <Image src={product.image} fill />
+          </div>
+        </CardMedia>
+      </Link>
       <CardContent>
         <Typography variant="h6" component="div" align="center">
           {product.name}

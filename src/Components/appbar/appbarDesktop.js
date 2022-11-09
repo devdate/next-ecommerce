@@ -12,20 +12,29 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import Actions from "./actions";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import ColorModeContext from "../../context/ColorModeContext";
+import Link from "next/link";
+import AppMenu from "../menu";
 
 export default function AppbarDesktop({ props }) {
   //console.log(logo);
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { mode } = useContext(ColorModeContext);
 
   const onSearch = (event) => {
     console.log("clicked");
   };
 
-  const { mode } = useContext(ColorModeContext);
+  const toggleMenu = (test) => {
+    setIsMenuOpen(test);
+  };
+
   return (
     <AppbarContainer>
       <IconButton
+        onClick={() => toggleMenu(true)}
         disableRipple
         sx={{
           flexGrow: 1,
@@ -33,14 +42,17 @@ export default function AppbarDesktop({ props }) {
       >
         <MenuIcon fontSize="large" />
       </IconButton>
-      <AppbarHeaderImage sx={{}}>
-        <Image
-          src={mode === "light" ? logo : logoDark}
-          width={179}
-          height={34}
-          alt="logo"
-        ></Image>
-      </AppbarHeaderImage>
+      <AppMenu toOpen={isMenuOpen} setIsopen={toggleMenu} />
+      <Link href="/">
+        <AppbarHeaderImage sx={{}}>
+          <Image
+            src={mode === "light" ? logo : logoDark}
+            width={179}
+            height={34}
+            alt="logo"
+          ></Image>
+        </AppbarHeaderImage>
+      </Link>
       {/*<MyList type="row">*/}
       {/* <Search>
           <StyledInputBase

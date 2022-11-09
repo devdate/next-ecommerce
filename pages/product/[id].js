@@ -39,6 +39,31 @@ const Product = () => {
         <Grid
           item
           sm={12}
+          md={12}
+          lg={12}
+          sx={{
+            width: "100%",
+            justifyContent: "start",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+        >
+          <Box paddingBottom={4}>
+            <Typography
+              variant="h4"
+              textAlign="center"
+              borderBottom={2}
+              color="secondary"
+            >
+              {game.name}
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid
+          item
+          sm={12}
           md={6}
           sx={{
             width: "100%",
@@ -67,7 +92,7 @@ const Product = () => {
             ></Image>
           </Box>
           <Card sx={{ padding: "10px 30px", margin: "20px" }}>
-            <Typography variant="h6">₹{game.price}</Typography>
+            <Typography variant="h6">Price: ₹{game.price}</Typography>
           </Card>
         </Grid>
         <Grid
@@ -79,12 +104,12 @@ const Product = () => {
         >
           <Card sx={{ textAlign: "center", padding: "24px" }}>
             <Typography
-              variant="h3"
-              borderBottom={2}
+              variant="h6"
+              borderBottom={1}
               textAlign="center"
               marginBottom={4}
             >
-              {game.name}
+              Description
             </Typography>
 
             <Collapse in={!isReadMore} collapsedSize={100}>
