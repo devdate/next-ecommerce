@@ -3,6 +3,7 @@ import {
   Button,
   Divider,
   Drawer,
+  Link,
   List,
   ListItem,
   ListItemButton,
@@ -13,6 +14,7 @@ import {
 import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { border } from "@mui/system";
+import NextLink from "next/link";
 
 const AppMenu = ({ toOpen, setIsopen }) => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(toOpen);
@@ -27,6 +29,25 @@ const AppMenu = ({ toOpen, setIsopen }) => {
 
     setIsopen(open);
   };
+
+  const eachList = [
+    {
+      name: "Home",
+      link: "/",
+    },
+    {
+      name: "About Us",
+      link: "/about",
+    },
+    {
+      name: "Contact Us",
+      link: "/",
+    },
+    {
+      name: "Privacy & Policy",
+      link: "/",
+    },
+  ];
 
   const list = () => (
     <Box
@@ -46,23 +67,31 @@ const AppMenu = ({ toOpen, setIsopen }) => {
         <Button
           variant="outlined"
           color="secondary"
-          endIcon={<CloseIcon />}
           sx={{ alignItems: "center" }}
         >
-          Close
+          <CloseIcon />
         </Button>
       </Box>
       <Divider variant="middle" />
       <List>
-        {["Home", "About Us", "Contact Us", "Privacy & Policy"].map(
-          (text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemText sx={{ textAlign: "center" }} primary={text} />
+        {eachList.map((eachItem, index) => (
+          <NextLink
+            href={eachItem.link}
+            passHref
+            style={{ textDecoration: "none", textAlign: "center" }}
+          >
+            <ListItem key={eachItem.name} disablePadding>
+              <ListItemButton
+                LinkComponent={Link}
+                sx={{ justifyContent: "center" }}
+              >
+                <Typography color="secondary" sx={{ textAlign: "center" }}>
+                  {eachItem.name}
+                </Typography>
               </ListItemButton>
             </ListItem>
-          )
-        )}
+          </NextLink>
+        ))}
       </List>
     </Box>
   );

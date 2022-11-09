@@ -26,9 +26,20 @@ export default function SingleProduct({ product, matches }) {
         </CardMedia>
       </Link>
       <CardContent>
-        <Typography variant="h6" component="div" align="center">
-          {product.name}
-        </Typography>
+        <Link
+          href={`/product/${product.id}`}
+          passHref
+          style={{ textDecoration: "none", textAlign: "center" }}
+        >
+          <Typography
+            variant="h6"
+            component="div"
+            align="center"
+            color="primary"
+          >
+            {product.name}
+          </Typography>
+        </Link>
         <Typography variant="h5" component="div" align="center">
           ₹{product.price}
         </Typography>

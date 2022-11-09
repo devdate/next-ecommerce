@@ -102,7 +102,7 @@ export default function AppbarDesktop({ props }) {
                   paddingLeft: "10px",
                 }}
               >
-                <SearchIcon color="secondary" />
+                <SearchIcon sx={{ color: "white" }} />
               </IconButton>
             </InputAdornment>
           }
