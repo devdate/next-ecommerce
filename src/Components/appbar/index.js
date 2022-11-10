@@ -9,7 +9,6 @@ export default function Appbar() {
   //const match1 = useCustomMediaQuery(900);
   //console.log(match1);
   const matches = useMediaQuery("(max-width:900px)", { noSsr: true });
-  console.log("matches ", matches);
   return (
     <>
       {matches ? (

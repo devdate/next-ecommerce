@@ -17,18 +17,17 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { useContext } from "react";
 import ColorModeContext from "../../context/ColorModeContext";
+import CartIcon from "./cartIcon";
 
 export default function Actions() {
   const ctx = useContext(ColorModeContext);
   const icons = [
-    { id: "shop", element: <ShoppingCartIcon />, helper: () => {} },
-    { id: "shop1", element: <ShoppingCartIcon />, helper: () => {} },
-    { id: "account", element: <PersonIcon />, helper: () => {} },
     {
-      id: "dark",
-      element: ctx.mode === "light" ? <DarkModeIcon /> : <LightModeIcon />,
-      helper: ctx.toggleColorMode,
+      id: "shop",
+      element: <CartIcon />,
+      helper: () => {},
     },
+    { id: "account", element: <PersonIcon />, helper: () => {} },
   ];
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
@@ -45,6 +44,7 @@ export default function Actions() {
         <ListItemButton
           key={icon.id}
           onClick={icon.helper}
+          disableRipple
           color="secondary"
           sx={{
             justifyContent: "center",

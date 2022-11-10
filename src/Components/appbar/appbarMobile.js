@@ -12,6 +12,7 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import Link from "next/link";
 import AppMenu from "../menu";
+import CartIcon from "./cartIcon";
 
 export default function AppbarMobile({ props }) {
   const { mode, toggleColorMode } = useContext(ColorModeContext);
@@ -35,9 +36,14 @@ export default function AppbarMobile({ props }) {
         <MenuIcon fontSize="medium" />
       </IconButton>
       <AppMenu toOpen={isMenuOpen} setIsopen={toggleMenu} />
-      <Link href="/">
+      <Link href="/" style={{ flexGrow: 1 }}>
         <AppbarHeaderImage
-          sx={{ paddingLeft: "10px", display: "flex", justifyContent: "left" }}
+          sx={{
+            paddingLeft: "10px",
+            display: "flex",
+            justifyContent: "left",
+            flexGrow: 1,
+          }}
         >
           <Image
             src={mode === "light" ? logo : logoDark}
@@ -49,24 +55,15 @@ export default function AppbarMobile({ props }) {
       </Link>
       <IconButton
         disableRipple
-        onClick={toggleColorMode}
         sx={{
-          flexGrow: 1,
-          display: "flex",
-          justifyContent: "right",
-        }}
-      >
-        {mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
-      </IconButton>
-      <IconButton
-        disableRipple
-        sx={{
-          flexGrow: 1,
+          flexGrow: 0,
           display: "flex",
           justifyContent: "center",
+          alignItems: "center",
+          paddingRight: "24px",
         }}
       >
-        <ShoppingCartIcon fontSize="medium" />
+        <CartIcon />
       </IconButton>
       <Button disableRipple variant="outlined" color="secondary">
         Login

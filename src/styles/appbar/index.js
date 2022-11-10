@@ -14,7 +14,7 @@ export const AppbarContainer = styled(Box)(() => ({
 
 //header
 export const AppbarHeaderImage = styled(Box)(() => ({
-  padding: "4px",
+  padding: "4px 24px 4px 4px",
   flexGrow: 1,
 }));
 

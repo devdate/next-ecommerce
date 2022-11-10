@@ -8,6 +8,7 @@ import {
   IconButton,
   FormControl,
   OutlinedInput,
+  Button,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -16,6 +17,7 @@ import { useContext, useState } from "react";
 import ColorModeContext from "../../context/ColorModeContext";
 import Link from "next/link";
 import AppMenu from "../menu";
+import CartIcon from "./cartIcon";
 
 export default function AppbarDesktop({ props }) {
   //console.log(logo);
@@ -53,16 +55,7 @@ export default function AppbarDesktop({ props }) {
           ></Image>
         </AppbarHeaderImage>
       </Link>
-      {/*<MyList type="row">*/}
-      {/* <Search>
-          <StyledInputBase
-            placeholder="Search…"
-            inputProps={{ "aria-label": "search" }}
-          />
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-        </Search> */}
+
       <FormControl
         variant="outlined"
         sx={{
@@ -111,8 +104,22 @@ export default function AppbarDesktop({ props }) {
           }}
         />
       </FormControl>
-
-      <Actions matches />
+      <IconButton
+        disableRipple
+        sx={{
+          flexGrow: 0,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingRight: "24px",
+        }}
+      >
+        <CartIcon />
+      </IconButton>
+      <Button disableRipple variant="outlined" color="secondary">
+        Login
+      </Button>
+      {/*<Actions matches />*/}
 
       {/*</MyList>*/}
     </AppbarContainer>

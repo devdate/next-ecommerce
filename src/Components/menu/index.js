@@ -3,6 +3,9 @@ import {
   Button,
   Divider,
   Drawer,
+  FormControlLabel,
+  FormGroup,
+  formLabelClasses,
   Link,
   List,
   ListItem,
@@ -11,19 +14,26 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { border } from "@mui/system";
 import NextLink from "next/link";
+import MaterialUISwitch from "../../styles/menu";
+import ColorModeContext from "../../context/ColorModeContext";
 
 const AppMenu = ({ toOpen, setIsopen }) => {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(toOpen);
+  const { mode, toggleColorMode } = useContext(ColorModeContext);
+  var doNotClose = false;
 
   const toggleDrawer = (open) => (event) => {
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
     ) {
+      return;
+    }
+    if (doNotClose) {
+      doNotClose = false;
       return;
     }
 
@@ -94,6 +104,27 @@ const AppMenu = ({ toOpen, setIsopen }) => {
           </NextLink>
         ))}
       </List>
+      <Divider variant="middle" />
+      <FormGroup
+        onClick={() => {
+          doNotClose = true;
+          console.log("called");
+        }}
+      >
+        <FormControlLabel
+          id="testing"
+          control={
+            <MaterialUISwitch
+              sx={{ m: 1 }}
+              onChange={toggleColorMode}
+              checked={mode === "dark"}
+            />
+          }
+          sx={{ justifyContent: "center" }}
+          label="Dark Mode"
+          labelPlacement="start"
+        />
+      </FormGroup>
     </Box>
   );
 
