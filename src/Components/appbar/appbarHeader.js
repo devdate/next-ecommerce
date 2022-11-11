@@ -12,15 +12,14 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
-import Actions from "./actions";
 import { useContext, useState } from "react";
 import ColorModeContext from "../../context/ColorModeContext";
 import Link from "next/link";
 import AppMenu from "../menu";
 import CartIcon from "./cartIcon";
 
-export default function AppbarDesktop({ props }) {
-  //console.log(logo);
+export default function AppbarHeader({ matches }) {
+  //console.log(matches);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { mode } = useContext(ColorModeContext);
@@ -34,19 +33,22 @@ export default function AppbarDesktop({ props }) {
   };
 
   return (
-    <AppbarContainer>
+    <AppbarContainer marginLeft={matches ? 3 : 0} marginRight={matches ? 3 : 0}>
       <IconButton
         onClick={() => toggleMenu(true)}
         disableRipple
         sx={{
-          flexGrow: 1,
+          paddingRight: matches ? 3 : 1,
+          flexGrow: 0,
+          justifyContent: "center",
+          display: "flex",
         }}
       >
-        <MenuIcon fontSize="large" />
+        <MenuIcon fontSize={matches ? "large" : "medium"} />
       </IconButton>
       <AppMenu toOpen={isMenuOpen} setIsopen={toggleMenu} />
-      <Link href="/">
-        <AppbarHeaderImage sx={{}}>
+      <Link href="/" style={{ flexGrow: matches ? 0 : 1 }}>
+        <AppbarHeaderImage>
           <Image
             src={mode === "light" ? logo : logoDark}
             width={179}
@@ -59,7 +61,8 @@ export default function AppbarDesktop({ props }) {
       <FormControl
         variant="outlined"
         sx={{
-          flexGrow: 5,
+          flexGrow: 7,
+          display: { xs: "none", sm: "none", md: "block" },
           //justifyContent: "center",
           //alignItems: "center",
         }}
@@ -108,6 +111,7 @@ export default function AppbarDesktop({ props }) {
         disableRipple
         sx={{
           flexGrow: 0,
+          paddingLeft: matches ? 3 : 0,
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
