@@ -128,6 +128,7 @@ export default function AppbarHeader({ matches }) {
                   paddingBottom: "16.5px",
                   paddingRight: "20px",
                   paddingLeft: "10px",
+                  "&:hover": { backgroundColor: "#00646d" },
                 }}
               >
                 <SearchIcon sx={{ color: "white" }} />
