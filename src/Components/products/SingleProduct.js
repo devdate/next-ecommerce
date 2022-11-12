@@ -65,7 +65,11 @@ export default function SingleProduct({ product, matches }) {
         <IconButton color="error">
           <FavoriteIcon />
         </IconButton>
-        <Divider orientation="vertical" flexItem />
+        <Divider
+          orientation="vertical"
+          flexItem
+          sx={{ borderRightWidth: 2, borderColor: "secondary.main" }}
+        />
         {!!cart.length &&
           cart.findIndex((eachItem) => eachItem.id === product.id) >= 0 && (
             <Box
