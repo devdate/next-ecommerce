@@ -39,6 +39,7 @@ function MyCart() {
           {!!cart.length &&
             cart.map((eachItem) => (
               <Card
+                key={eachItem.id}
                 sx={{
                   display: "flex",
                   justifyContent: "center",
