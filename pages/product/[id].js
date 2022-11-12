@@ -83,7 +83,7 @@ const Product = () => {
           >
             <Image
               src={game.image}
-              alt="any"
+              alt={game.name}
               fill
               style={{
                 objectFit: "contain",

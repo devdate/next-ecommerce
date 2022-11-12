@@ -1,15 +1,6 @@
-import {
-  Box,
-  Button,
-  Card,
-  Collapse,
-  Container,
-  Grid,
-  Link,
-  Typography,
-} from "@mui/material";
+import { Box, Card, Container, Grid, Link, Typography } from "@mui/material";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 
 function About() {
   return (
@@ -36,8 +27,9 @@ function About() {
             }}
           >
             <Image
+              priority
               src="/images/me/me.jpg"
-              alt="any"
+              alt="myself"
               fill
               style={{
                 objectFit: "cover",
