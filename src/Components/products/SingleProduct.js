@@ -80,13 +80,13 @@ export default function SingleProduct({ product, matches }) {
                 viewBox="0 0 71 15"
                 style={{ width: "85px", marginBottom: "8px" }}
               />
-              <Box sx={{ display: "flex" }}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
                 <IconButton
                   onClick={() => removeItemfromCart(product)}
                   variant="outlined"
                   size="small"
                   p={0}
-                  sx={{ border: "1px solid", marginRight: "8px" }}
+                  sx={{ border: "1px solid" }}
                 >
                   <RemoveIcon />
                 </IconButton>
