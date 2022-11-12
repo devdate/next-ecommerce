@@ -31,6 +31,7 @@ export default function Banner() {
 
   return (
     <Carousel
+      stopAutoPlayOnHover={false}
       height={matches ? "100vh" : "380px"}
       indicators={false}
       navButtonsAlwaysVisible
