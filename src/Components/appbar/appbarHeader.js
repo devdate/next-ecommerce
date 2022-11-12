@@ -50,6 +50,7 @@ export default function AppbarHeader({ matches }) {
       <Link href="/" style={{ flexGrow: matches ? 0 : 1 }}>
         <AppbarHeaderImage>
           <Image
+            priority
             src={mode === "light" ? logo : logoDark}
             width={179}
             height={34}
