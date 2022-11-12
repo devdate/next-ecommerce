@@ -17,12 +17,28 @@ import ColorModeContext from "../../context/ColorModeContext";
 import Link from "next/link";
 import AppMenu from "../menu";
 import CartIcon from "./cartIcon";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function AppbarHeader({ matches }) {
   //console.log(matches);
+  const router = useRouter();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { mode } = useContext(ColorModeContext);
+
+  const [boxShadow, setBoxShadow] = useState("0 0 5px 10px #FFFFFF96");
+  const [boxBackground, setBoxBackground] = useState("rgba(255,255,255,0.6)");
+
+  useEffect(() => {
+    if (mode === "light") {
+      setBoxShadow("0 0 5px 10px #FFFFFF96");
+      setBoxBackground("rgba(255,255,255,0.6)");
+    } else {
+      setBoxShadow("0 0 5px 10px #00000096");
+      setBoxBackground("rgba(0,0,0,0.6)");
+    }
+  }, [mode]);
 
   const onSearch = (event) => {
     console.log("clicked");
@@ -33,15 +49,30 @@ export default function AppbarHeader({ matches }) {
   };
 
   return (
-    <AppbarContainer marginLeft={matches ? 3 : 0} marginRight={matches ? 3 : 0}>
+    <AppbarContainer
+      sx={
+        matches &&
+        router.pathname === "/" && {
+          width: "100%",
+          position: "fixed",
+          top: "0",
+          boxShadow: boxShadow,
+          left: "0",
+          zIndex: "999",
+          background: boxBackground,
+        }
+      }
+    >
       <IconButton
         onClick={() => toggleMenu(true)}
         disableRipple
         sx={{
-          paddingRight: matches ? 3 : 1,
+          marginRight: matches ? 3 : 1,
           flexGrow: 0,
           justifyContent: "center",
           display: "flex",
+          ...(matches && { boxShadow: boxShadow }),
+          ...(matches && { background: boxBackground }),
         }}
       >
         <MenuIcon fontSize={matches ? "large" : "medium"} />
@@ -112,16 +143,28 @@ export default function AppbarHeader({ matches }) {
         disableRipple
         sx={{
           flexGrow: 0,
-          paddingLeft: matches ? 3 : 0,
+          marginLeft: matches ? 3 : 0,
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          paddingRight: "24px",
+          marginRight: "24px",
+          ...(matches && { boxShadow: boxShadow }),
+          ...(matches && { background: boxBackground }),
         }}
       >
         <CartIcon />
       </IconButton>
-      <Button disableRipple variant="outlined" color="secondary">
+      <Button
+        disableRipple
+        variant="outlined"
+        color="secondary"
+        sx={
+          matches && {
+            boxShadow: boxShadow,
+            background: boxBackground,
+          }
+        }
+      >
         Login
       </Button>
       {/*<Actions matches />*/}
