@@ -5,7 +5,7 @@ import { Colors } from "../../theme";
 import { CartContext } from "../../context/ColorModeContext";
 import Link from "next/link";
 
-function CartIcon() {
+function CartIcon(props) {
   const { totalQuantity } = useContext(CartContext);
 
   return (
@@ -13,7 +13,7 @@ function CartIcon() {
       <Box
         sx={{ position: "relative", display: "flex", alignItems: "flex-end" }}
       >
-        <ShoppingCartIcon color="secondary" />
+        <ShoppingCartIcon {...props} color="secondary" />
         <Typography
           variant="caption"
           position="absolute"

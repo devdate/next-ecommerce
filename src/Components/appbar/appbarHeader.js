@@ -32,10 +32,10 @@ export default function AppbarHeader({ matches }) {
 
   useEffect(() => {
     if (mode === "light") {
-      setBoxShadow("0 0 5px 10px #FFFFFF96");
+      setBoxShadow("0 0 10px 14px #FFFFFF96");
       setBoxBackground("rgba(255,255,255,0.6)");
     } else {
-      setBoxShadow("0 0 5px 10px #00000096");
+      setBoxShadow("0 0 10px 14px #00000096");
       setBoxBackground("rgba(0,0,0,0.6)");
     }
   }, [mode]);
@@ -63,11 +63,11 @@ export default function AppbarHeader({ matches }) {
         }
       }
     >
-      <IconButton
+      <Button
         onClick={() => toggleMenu(true)}
         disableRipple
         sx={{
-          marginRight: matches ? 3 : 1,
+          marginRight: matches ? 3 : 0,
           flexGrow: 0,
           justifyContent: "center",
           display: "flex",
@@ -76,15 +76,15 @@ export default function AppbarHeader({ matches }) {
         }}
       >
         <MenuIcon fontSize={matches ? "large" : "medium"} />
-      </IconButton>
+      </Button>
       <AppMenu toOpen={isMenuOpen} setIsopen={toggleMenu} />
       <Link href="/" style={{ flexGrow: matches ? 0 : 1 }}>
         <AppbarHeaderImage>
           <Image
             priority
             src={mode === "light" ? logo : logoDark}
-            width={179}
-            height={34}
+            width={matches ? 179 : 132}
+            height={matches ? 34 : 25}
             alt="logo"
           ></Image>
         </AppbarHeaderImage>
@@ -140,7 +140,7 @@ export default function AppbarHeader({ matches }) {
           }}
         />
       </FormControl>
-      <IconButton
+      <Button
         disableRipple
         sx={{
           flexGrow: 0,
@@ -148,13 +148,13 @@ export default function AppbarHeader({ matches }) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          marginRight: "24px",
+          marginRight: { sm: "0px", md: "0px", lg: "24px" },
           ...(matches && { boxShadow: boxShadow }),
           ...(matches && { background: boxBackground }),
         }}
       >
-        <CartIcon />
-      </IconButton>
+        <CartIcon fontSize={matches ? "large" : "medium"} />
+      </Button>
       <Button
         disableRipple
         variant="outlined"
