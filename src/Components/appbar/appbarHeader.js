@@ -104,6 +104,9 @@ export default function AppbarHeader({ matches }) {
             borderRadius: "30px",
             paddingLeft: "10px",
             paddingRight: "0px",
+            "&.Mui-focused": {
+              bgcolor: "background.default",
+            },
           }}
           fullWidth={true}
           //label="Search..."
