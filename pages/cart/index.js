@@ -139,12 +139,53 @@ function MyCart() {
             ))}
         </Grid>
         <Grid
-          onClick={() => console.log(cart)}
           item
           sm={12}
           md={6}
-          sx={{ position: "relative" }}
           marginTop={{ xs: 4, sm: 4, md: 0, lg: 0 }}
+          paddingLeft={{ xs: 0, sm: 0, md: 4, lg: 4 }}
+          paddingRight={{ xs: 0, sm: 0, md: 4, lg: 4 }}
+          textAlign="center"
+        >
+          <Card
+            sx={{
+              textAlign: "center",
+              padding: "24px",
+              wordWrap: "break-word",
+            }}
+          >
+            <Typography
+              variant="h4"
+              borderBottom={1}
+              textAlign="left"
+              marginBottom={4}
+              fontWeight={600}
+              display="flex"
+              justifyContent="space-between"
+            >
+              <span>Total</span>
+              <span> ₹{totalPrice}</span>
+            </Typography>
+
+            <Typography
+              variant="body1"
+              textAlign="center"
+              sx={{ wordBreak: "break-word" }}
+            >
+              Young mind from Bangalore, passionate in Web Development and UI
+              Development.
+            </Typography>
+          </Card>
+          <Button sx={{ marginTop: "16px" }} variant="contained">
+            Place Order
+          </Button>
+        </Grid>
+        <Grid
+          onClick={() => console.log(cart)}
+          item
+          sm={12}
+          md={12}
+          marginTop={4}
           paddingLeft={{ xs: 0, sm: 0, md: 4, lg: 4 }}
           paddingRight={{ xs: 0, sm: 0, md: 4, lg: 4 }}
         >

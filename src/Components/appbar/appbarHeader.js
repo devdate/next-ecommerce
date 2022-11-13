@@ -73,6 +73,9 @@ export default function AppbarHeader({ matches }) {
           display: "flex",
           ...(matches && { boxShadow: boxShadow }),
           ...(matches && { background: boxBackground }),
+          "&:hover": {
+            bgcolor: "background.default",
+          },
         }}
       >
         <MenuIcon fontSize={matches ? "large" : "medium"} />
@@ -154,6 +157,9 @@ export default function AppbarHeader({ matches }) {
           marginRight: { sm: "0px", md: "0px", lg: "24px" },
           ...(matches && { boxShadow: boxShadow }),
           ...(matches && { background: boxBackground }),
+          "&:hover": {
+            bgcolor: "background.default",
+          },
         }}
       >
         <CartIcon fontSize={matches ? "large" : "medium"} />
@@ -162,12 +168,16 @@ export default function AppbarHeader({ matches }) {
         disableRipple
         variant="outlined"
         color="secondary"
-        sx={
-          matches && {
+        sx={{
+          "&:hover": {
+            bgcolor: "background.default",
+          },
+
+          ...(matches && {
             boxShadow: boxShadow,
             background: boxBackground,
-          }
-        }
+          }),
+        }}
       >
         Login
       </Button>
