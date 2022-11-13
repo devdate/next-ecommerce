@@ -197,7 +197,6 @@ function MyCart() {
           </Button>
         </Grid>
         <Grid
-          onClick={() => console.log(cart)}
           item
           sm={12}
           md={12}

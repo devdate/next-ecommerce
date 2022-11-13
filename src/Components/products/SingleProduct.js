@@ -22,7 +22,6 @@ export default function SingleProduct({ product, matches }) {
   const { cart, addItemtoCart, removeItemfromCart } = useContext(CartContext);
 
   const onClickHandler = (addproduct) => {
-    console.log(addproduct);
     addItemtoCart(addproduct);
   };
 

@@ -108,7 +108,6 @@ const AppMenu = ({ toOpen, setIsopen }) => {
       <FormGroup
         onClick={() => {
           doNotClose = true;
-          console.log("called");
         }}
       >
         <FormControlLabel
