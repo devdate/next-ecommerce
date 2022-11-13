@@ -151,6 +151,7 @@ function MyCart() {
           paddingLeft={{ xs: 0, sm: 0, md: 4, lg: 4 }}
           paddingRight={{ xs: 0, sm: 0, md: 4, lg: 4 }}
           textAlign="center"
+          flexGrow={1}
         >
           <Card
             sx={{
