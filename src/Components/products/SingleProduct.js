@@ -28,7 +28,7 @@ export default function SingleProduct({ product, matches }) {
 
   return (
     <Card sx={{ maxWidth: 380, marginTop: "10px", marginBottom: "10px" }}>
-      <Link href={`/product/${product.id}`}>
+      <Link href={`/product/${product._id}`}>
         <CardMedia alt={product.name} sx={{ height: "240px", width: "240px" }}>
           <div style={{ position: "relative", width: "100%", height: "100%" }}>
             <Image alt={product.name} src={product.image} fill />
@@ -37,7 +37,7 @@ export default function SingleProduct({ product, matches }) {
       </Link>
       <CardContent p={1}>
         <Link
-          href={`/product/${product.id}`}
+          href={`/product/${product._id}`}
           passHref
           style={{ textDecoration: "none", textAlign: "center" }}
         >
@@ -51,7 +51,7 @@ export default function SingleProduct({ product, matches }) {
           </Typography>
         </Link>
         <Typography variant="h5" component="div" align="center">
-          ₹{product.price}
+          ₹{product.prices[0]}
         </Typography>
       </CardContent>
       <CardActions
@@ -71,7 +71,7 @@ export default function SingleProduct({ product, matches }) {
           sx={{ borderRightWidth: 2, borderColor: "secondary.main" }}
         />
         {!!cart.length &&
-          cart.findIndex((eachItem) => eachItem.id === product.id) >= 0 && (
+          cart.findIndex((eachItem) => eachItem._id === product._id) >= 0 && (
             <Box
               sx={{
                 display: "flex",
@@ -103,7 +103,10 @@ export default function SingleProduct({ product, matches }) {
                   }}
                 >
                   &nbsp;&nbsp;
-                  {cart.find((eachItem) => eachItem.id === product.id).quantity}
+                  {
+                    cart.find((eachItem) => eachItem._id === product._id)
+                      .quantity
+                  }
                   &nbsp;&nbsp;
                 </Typography>
                 <IconButton
@@ -120,7 +123,7 @@ export default function SingleProduct({ product, matches }) {
             </Box>
           )}
         {(!cart.length ||
-          cart.findIndex((eachItem) => eachItem.id === product.id) < 0) && (
+          cart.findIndex((eachItem) => eachItem._id === product._id) < 0) && (
           <Button
             size="medium"
             variant="contained"

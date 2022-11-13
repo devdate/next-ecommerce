@@ -26,11 +26,11 @@ export const ColorModeContextProvider = (props) => {
     () => ({
       addItemtoCart: (item) => {
         setTotalQuantity((prevTotal) => prevTotal + 1);
-        setTotalPrice((prevTotal) => prevTotal + item.price);
+        setTotalPrice((prevTotal) => prevTotal + item.prices[0]);
         setCart((prevCart) => {
           let exists = false;
           const newCart = prevCart.map((eachItem) => {
-            if (eachItem.id === item.id) {
+            if (eachItem._id === item._id) {
               exists = true;
               return { ...eachItem, quantity: eachItem.quantity + 1 };
             }
@@ -41,10 +41,10 @@ export const ColorModeContextProvider = (props) => {
       },
       removeItemfromCart: (item) => {
         setTotalQuantity((prevTotal) => prevTotal - 1);
-        setTotalPrice((prevTotal) => prevTotal - item.price);
+        setTotalPrice((prevTotal) => prevTotal - item.prices[0]);
         setCart((prevCart) => {
           const reducedCart = prevCart.map((eachItem) =>
-            eachItem.id === item.id
+            eachItem._id === item._id
               ? { ...eachItem, quantity: eachItem.quantity - 1 }
               : { ...eachItem }
           );

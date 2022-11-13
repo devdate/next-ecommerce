@@ -12,16 +12,17 @@ import {
 import React, { useState } from "react";
 import Image from "next/image";
 import { Ps5Icon, WindowsIcon, XboxIcon } from "../../src/svgicons";
+import axios from "axios";
 
-const Product = () => {
-  const game = {
-    id: 1,
-    name: "Call Of Duty MW3",
-    price: 200,
-    image: "/images/products/codmw3.jpg",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-  };
+const Product = ({ game }) => {
+  // const game = {
+  //   id: 1,
+  //   name: "Call Of Duty MW3",
+  //   price: 200,
+  //   image: "/images/products/codmw3.jpg",
+  //   description:
+  //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+  // };
 
   const [isReadMore, setIsReadMore] = useState(true);
   const toggleReadMore = () => {
@@ -35,7 +36,7 @@ const Product = () => {
 
   return (
     <Container maxWidth="xl" disableGutters>
-      <Grid container p={6}>
+      <Grid container justifyContent="center" p={{ xs: 3, sm: 3, md: 6 }}>
         <Grid
           item
           sm={12}
@@ -43,7 +44,7 @@ const Product = () => {
           lg={12}
           sx={{
             width: "100%",
-            justifyContent: "start",
+            justifyContent: "center",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -92,17 +93,71 @@ const Product = () => {
             ></Image>
           </Box>
           <Card sx={{ padding: "10px 30px", margin: "20px" }}>
-            <Typography variant="h6">Price: ₹{game.price}</Typography>
+            <Typography variant="h6">
+              Price: ₹{game.prices[gameVariant]}
+            </Typography>
           </Card>
         </Grid>
-        <Grid
-          item
-          sm={12}
-          md={6}
-          sx={{ position: "relative" }}
-          marginTop={{ xs: 4, sm: 4, md: 0, lg: 0 }}
-        >
-          <Card sx={{ textAlign: "center", padding: "24px" }}>
+        <Grid item sm={12} md={6} marginTop={{ xs: 4, sm: 4, md: 0, lg: 0 }}>
+          <Card sx={{ padding: "24px" }}>
+            <Typography
+              variant="h6"
+              borderBottom={1}
+              textAlign="center"
+              marginBottom={4}
+            >
+              Choose Variant:
+            </Typography>
+            <Box
+              justifyContent="space-evenly"
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", sm: "column", md: "row" },
+              }}
+            >
+              <Tooltip title="Windows® 7/8.1/10/11" placement="top">
+                <Button
+                  variant={gameVariant == 0 ? "contained" : "outlined"}
+                  color="secondary"
+                  onClick={() => changeGameVariant(0)}
+                  sx={{
+                    flex: "1",
+                    minWidth: "130px",
+                    margin: "8px",
+                  }}
+                >
+                  <WindowsIcon viewBox="0 0 71 15" style={{ width: "85px" }} />
+                </Button>
+              </Tooltip>
+              <Tooltip title="Xbox" placement="top">
+                <Button
+                  variant={gameVariant == 1 ? "contained" : "outlined"}
+                  color="secondary"
+                  onClick={() => changeGameVariant(1)}
+                  sx={{
+                    flex: "1",
+                    minWidth: "130px",
+                    margin: "8px",
+                  }}
+                >
+                  <XboxIcon viewBox="0 0 66 20" style={{ width: "85px" }} />
+                </Button>
+              </Tooltip>
+              <Tooltip title="PlayStation®5" placement="top">
+                <Button
+                  variant={gameVariant == 2 ? "contained" : "outlined"}
+                  color="secondary"
+                  onClick={() => changeGameVariant(2)}
+                  sx={{ flex: "1", minWidth: "130px", margin: "8px" }}
+                >
+                  <Ps5Icon viewBox="0 0 66 15" style={{ width: "85px" }} />
+                </Button>
+              </Tooltip>
+            </Box>
+          </Card>
+          <Card
+            sx={{ textAlign: "center", padding: "24px", marginTop: "24px" }}
+          >
             <Typography
               variant="h6"
               borderBottom={1}
@@ -126,63 +181,22 @@ const Product = () => {
               {isReadMore ? "Read more" : "Show less"}
             </Button>
           </Card>
-          <Card sx={{ padding: "24px", marginTop: "24px" }}>
-            <Typography
-              variant="h6"
-              borderBottom={1}
-              textAlign="center"
-              marginBottom={4}
-            >
-              Choose Variant:
-            </Typography>
-            <Box
-              justifyContent="space-evenly"
-              sx={{ display: "flex", flexWrap: "wrap" }}
-            >
-              <Tooltip title="PlayStation®5" placement="top">
-                <Button
-                  variant={gameVariant == 0 ? "contained" : "outlined"}
-                  color="secondary"
-                  onClick={() => changeGameVariant(0)}
-                  sx={{
-                    flex: "1",
-                    minWidth: "130px",
-                    margin: "8px",
-                  }}
-                >
-                  <Ps5Icon viewBox="0 0 66 15" style={{ width: "85px" }} />
-                </Button>
-              </Tooltip>
-              <Tooltip title="Xbox" placement="top">
-                <Button
-                  variant={gameVariant == 1 ? "contained" : "outlined"}
-                  color="secondary"
-                  onClick={() => changeGameVariant(1)}
-                  sx={{
-                    flex: "1",
-                    minWidth: "130px",
-                    margin: "8px",
-                  }}
-                >
-                  <XboxIcon viewBox="0 0 66 20" style={{ width: "85px" }} />
-                </Button>
-              </Tooltip>
-              <Tooltip title="Windows® 7/8.1/10/11" placement="top">
-                <Button
-                  variant={gameVariant == 2 ? "contained" : "outlined"}
-                  color="secondary"
-                  onClick={() => changeGameVariant(2)}
-                  sx={{ flex: "1", minWidth: "130px", margin: "8px" }}
-                >
-                  <WindowsIcon viewBox="0 0 71 15" style={{ width: "85px" }} />
-                </Button>
-              </Tooltip>
-            </Box>
-          </Card>
         </Grid>
       </Grid>
     </Container>
   );
+};
+
+export const getServerSideProps = async ({ params }) => {
+  //console.log("pppp", params);
+  const res = await axios.get(
+    `${process.env.PUBLIC_URL}/api/products/${params.id}`
+  );
+  return {
+    props: {
+      game: res.data,
+    },
+  };
 };
 
 export default Product;

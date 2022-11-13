@@ -5,8 +5,9 @@ import PromotionBanner from "../src/Components/PromotionBanner";
 import styles from "../styles/Home.module.css";
 import Products from "../src/Components/products";
 import Parallax from "../src/Components/parallax";
+import axios from "axios";
 
-export default function Home() {
+export default function Home({ productsData }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -17,9 +18,17 @@ export default function Home() {
       <Container maxWidth="xl" disableGutters>
         <Banner />
         <PromotionBanner />
-        <Products />
+        <Products productsData={productsData} />
         <Parallax />
       </Container>
     </div>
   );
 }
+export const getServerSideProps = async () => {
+  const res = await axios.get("http://localhost:3000/api/products");
+  return {
+    props: {
+      productsData: res.data,
+    },
+  };
+};

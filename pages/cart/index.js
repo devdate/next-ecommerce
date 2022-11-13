@@ -4,9 +4,13 @@ import {
   Card,
   CardMedia,
   Container,
+  FormControl,
+  FormControlLabel,
   Grid,
   IconButton,
   Link,
+  Radio,
+  RadioGroup,
   Typography,
 } from "@mui/material";
 import Image from "next/image";
@@ -91,7 +95,8 @@ function MyCart() {
                         flex: "45%",
                       }}
                     >
-                      ₹{eachItem.price} &nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;
+                      ₹{eachItem.prices[0]}{" "}
+                      &nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;
                     </Typography>
                     <IconButton
                       onClick={() => removeItemfromCart(eachItem)}
@@ -131,7 +136,7 @@ function MyCart() {
                       }}
                     >
                       &nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;₹
-                      {eachItem.price * eachItem.quantity}
+                      {eachItem.prices[0] * eachItem.quantity}
                     </Typography>
                   </Box>
                 </Box>
@@ -167,14 +172,25 @@ function MyCart() {
               <span> ₹{totalPrice}</span>
             </Typography>
 
-            <Typography
-              variant="body1"
-              textAlign="center"
-              sx={{ wordBreak: "break-word" }}
-            >
-              Young mind from Bangalore, passionate in Web Development and UI
-              Development.
-            </Typography>
+            <FormControl>
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue="cod"
+                name="radio-buttons-group"
+              >
+                <FormControlLabel
+                  value="cod"
+                  control={<Radio />}
+                  label="Cash On Delivery"
+                />
+                <FormControlLabel
+                  value="card"
+                  control={<Radio />}
+                  label="Credit/Debit Card"
+                />
+                <FormControlLabel value="upi" control={<Radio />} label="UPI" />
+              </RadioGroup>
+            </FormControl>
           </Card>
           <Button sx={{ marginTop: "16px" }} variant="contained">
             Place Order
