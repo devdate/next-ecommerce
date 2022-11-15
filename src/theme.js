@@ -48,6 +48,17 @@ export const darkTheme = createTheme({
     },
     mode: "dark",
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+      xxl: 1920,
+      xxxl: 2560,
+    },
+  },
   components: {
     MuiButton: {
       defaultProps: {
@@ -90,7 +101,17 @@ export const lightTheme = createTheme({
       main: Colors.danger,
     },
   },
-
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+      xxl: 1920,
+      xxxl: 2560,
+    },
+  },
   components: {
     MuiButton: {
       defaultProps: {

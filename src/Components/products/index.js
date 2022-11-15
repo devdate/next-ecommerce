@@ -16,6 +16,7 @@ export default function Products({ productsData }) {
       sm={6}
       md={4}
       lg={3}
+      xxl={2}
       key={product._id}
       display="flex"
       flexDirection={"column"}

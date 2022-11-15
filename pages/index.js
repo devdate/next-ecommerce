@@ -15,7 +15,7 @@ export default function Home({ productsData }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container maxWidth="xl" disableGutters>
+      <Container maxWidth="xxxl" disableGutters>
         <Banner />
         <PromotionBanner />
         <Products productsData={productsData} />

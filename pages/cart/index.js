@@ -24,7 +24,7 @@ function MyCart() {
     useContext(CartContext);
 
   return (
-    <Container maxWidth="xl" disableGutters>
+    <Container maxWidth="xxxl" disableGutters>
       <Grid container padding="20px 16px">
         <Grid
           item
