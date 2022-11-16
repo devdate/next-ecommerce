@@ -1,0 +1,168 @@
+import { LoadingButton } from "@mui/lab";
+import {
+  Alert,
+  Box,
+  Card,
+  Snackbar,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import { useState } from "react";
+import SendIcon from "@mui/icons-material/Send";
+import InfoIcon from "@mui/icons-material/Info";
+import Link from "next/link";
+import { styled } from "@mui/material/styles";
+import { Colors } from "../src/theme";
+
+const SignUp = () => {
+  const [username, setUsername] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [validEmail, setValidEmail] = useState(true);
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [password, setPassword] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorOpen, setErrorOpen] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setErrorOpen(false);
+  };
+
+  const validateEmail = (email) => {
+    setUserEmail(email);
+    const e = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+    setValidEmail(e);
+  };
+  const validatePass = (pass) => {};
+
+  const loginHandler = () => {
+    setEmailTouched(true);
+    setLoading(true);
+    setIsSubmitted(true);
+    console.log("clicked");
+    if (
+      !username ||
+      !password ||
+      !userEmail ||
+      !validEmail ||
+      password.length < 8 ||
+      password.length > 20
+    ) {
+      setLoading(false);
+      setErrorMsg("Please check all fields");
+      setErrorOpen(true);
+      return;
+    }
+  };
+
+  return (
+    <Box
+      justifyContent="center"
+      alignItems="center"
+      textAlign="center"
+      display="flex"
+      flexDirection="column"
+      marginTop={4}
+      padding={2}
+    >
+      <Typography variant="h4" fontWeight={500}>
+        Sign Up
+      </Typography>
+      <Card sx={{ maxWidth: "400px", width: "100%", padding: 4, marginTop: 4 }}>
+        <TextField
+          id="userName"
+          label="Name"
+          fullWidth
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          error={isSubmitted && username === ""}
+          helperText={
+            isSubmitted && username === "" ? "This field is required" : ""
+          }
+        />
+        <TextField
+          id="userEmail"
+          label="Email"
+          fullWidth
+          value={userEmail}
+          onChange={(e) => validateEmail(e.target.value)}
+          onBlur={() => setEmailTouched(true)}
+          error={emailTouched && (userEmail === "" || !validEmail)}
+          helperText={
+            emailTouched
+              ? userEmail === ""
+                ? "This field is required"
+                : validEmail
+                ? ""
+                : "Enter a valid Email"
+              : ""
+          }
+          sx={{ marginTop: 2 }}
+        />
+        <TextField
+          id="password"
+          label="Password"
+          fullWidth
+          value={password}
+          type="password"
+          autoComplete="current-password"
+          onChange={(e) => setPassword(e.target.value)}
+          inputProps={{ minlength: 8, maxLength: 20 }}
+          InputProps={{
+            endAdornment: (
+              <Tooltip
+                title="Password must be 8-20 characters in length"
+                placement="top"
+              >
+                <InfoIcon color="primary" sx={{ cursor: "pointer" }} />
+              </Tooltip>
+            ),
+          }}
+          error={
+            isSubmitted &&
+            (password === "" || password.length < 8 || password.length > 20)
+          }
+          helperText={
+            isSubmitted
+              ? password === ""
+                ? "This field is required"
+                : password.length < 8 || password.length > 20
+                ? "Password must be 8-20 characters in length"
+                : ""
+              : ""
+          }
+          sx={{ marginTop: 2 }}
+        />
+        <Box marginTop={4} flex={1} textAlign="center">
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            onClick={loginHandler}
+            loading={loading}
+            endIcon={<SendIcon />}
+          >
+            Sign Up
+          </LoadingButton>
+        </Box>
+        <Typography fontSize={16} fontWeight={600} marginTop={2}>
+          Already a User?{" "}
+          <Link href="/login" style={{ color: Colors.primary }}>
+            Login
+          </Link>
+        </Typography>
+      </Card>
+      <Snackbar open={errorOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          {errorMsg}
+        </Alert>
+      </Snackbar>
+    </Box>
+  );
+};
+
+export default SignUp;

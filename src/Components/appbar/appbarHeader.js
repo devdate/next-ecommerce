@@ -71,8 +71,11 @@ export default function AppbarHeader({ matches }) {
           flexGrow: 0,
           justifyContent: "center",
           display: "flex",
-          ...(matches && { boxShadow: boxShadow }),
-          ...(matches && { background: boxBackground }),
+          ...(matches &&
+            router.pathname === "/" && {
+              boxShadow: boxShadow,
+              background: boxBackground,
+            }),
           "&:hover": {
             bgcolor: "background.default",
           },
@@ -82,7 +85,7 @@ export default function AppbarHeader({ matches }) {
       </Button>
       <AppMenu toOpen={isMenuOpen} setIsopen={toggleMenu} />
       <Link href="/" style={{ flexGrow: matches ? 0 : 1 }}>
-        <AppbarHeaderImage>
+        <AppbarHeaderImage paddingRight={{ xs: "4px", sm: "4px", md: "24px" }}>
           <Image
             priority
             src={mode === "light" ? logo : logoDark}
@@ -155,8 +158,11 @@ export default function AppbarHeader({ matches }) {
           justifyContent: "center",
           alignItems: "center",
           marginRight: { sm: "0px", md: "0px", lg: "24px" },
-          ...(matches && { boxShadow: boxShadow }),
-          ...(matches && { background: boxBackground }),
+          ...(matches &&
+            router.pathname === "/" && {
+              boxShadow: boxShadow,
+              background: boxBackground,
+            }),
           "&:hover": {
             bgcolor: "background.default",
           },
@@ -164,23 +170,29 @@ export default function AppbarHeader({ matches }) {
       >
         <CartIcon fontSize={matches ? "large" : "medium"} />
       </Button>
-      <Button
-        disableRipple
-        variant="outlined"
-        color="secondary"
-        sx={{
-          "&:hover": {
-            bgcolor: "background.default",
-          },
-
-          ...(matches && {
-            boxShadow: boxShadow,
-            background: boxBackground,
-          }),
-        }}
+      <Link
+        href="/login"
+        style={{ textDecoration: "none", textAlign: "center" }}
       >
-        Login
-      </Button>
+        <Button
+          disableRipple
+          variant="outlined"
+          color="secondary"
+          sx={{
+            "&:hover": {
+              bgcolor: "background.default",
+            },
+
+            ...(matches &&
+              router.pathname === "/" && {
+                boxShadow: boxShadow,
+                background: boxBackground,
+              }),
+          }}
+        >
+          Login
+        </Button>
+      </Link>
       {/*<Actions matches />*/}
 
       {/*</MyList>*/}
