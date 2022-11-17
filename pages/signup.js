@@ -14,6 +14,8 @@ import InfoIcon from "@mui/icons-material/Info";
 import Link from "next/link";
 import { styled } from "@mui/material/styles";
 import { Colors } from "../src/theme";
+import { useRouter } from "next/router";
+import axios from "axios";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -24,13 +26,17 @@ const SignUp = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorOpen, setErrorOpen] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [successOpen, setSuccessOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
     setErrorOpen(false);
+    setSuccessOpen(false);
   };
 
   const validateEmail = (email) => {
@@ -40,7 +46,8 @@ const SignUp = () => {
   };
   const validatePass = (pass) => {};
 
-  const loginHandler = () => {
+  const submitHandler = async (e) => {
+    e.preventDefault();
     setEmailTouched(true);
     setLoading(true);
     setIsSubmitted(true);
@@ -57,6 +64,21 @@ const SignUp = () => {
       setErrorMsg("Please check all fields");
       setErrorOpen(true);
       return;
+    }
+    try {
+      const res = await axios.post(`${process.env.PUBLIC_URL}/api/signup`, {
+        name: username,
+        email: userEmail,
+        password,
+      });
+      setSuccessOpen(true);
+      setLoading(false);
+      router.push("/login");
+    } catch (err) {
+      setLoading(false);
+      setErrorMsg(err.response.data.error);
+      setErrorOpen(true);
+      console.log(err);
     }
   };
 
@@ -112,7 +134,7 @@ const SignUp = () => {
           type="password"
           autoComplete="current-password"
           onChange={(e) => setPassword(e.target.value)}
-          inputProps={{ minlength: 8, maxLength: 20 }}
+          inputProps={{ minLength: 8, maxLength: 20 }}
           InputProps={{
             endAdornment: (
               <Tooltip
@@ -142,7 +164,7 @@ const SignUp = () => {
           <LoadingButton
             variant="contained"
             type="submit"
-            onClick={loginHandler}
+            onClick={submitHandler}
             loading={loading}
             endIcon={<SendIcon />}
           >
@@ -159,6 +181,15 @@ const SignUp = () => {
       <Snackbar open={errorOpen} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
           {errorMsg}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={successOpen}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Product Created Successfully!
         </Alert>
       </Snackbar>
     </Box>

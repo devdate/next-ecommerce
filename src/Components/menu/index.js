@@ -20,9 +20,16 @@ import { border } from "@mui/system";
 import NextLink from "next/link";
 import MaterialUISwitch from "../../styles/menu";
 import ColorModeContext from "../../context/ColorModeContext";
+import Cookies from "js-cookie";
+import { parseCookies } from "nookies";
 
 const AppMenu = ({ toOpen, setIsopen }) => {
   const { mode, toggleColorMode } = useContext(ColorModeContext);
+  let user = false;
+  const { token } = parseCookies();
+  if (token) {
+    user = true;
+  }
   var doNotClose = false;
 
   const toggleDrawer = (open) => (event) => {
@@ -65,6 +72,7 @@ const AppMenu = ({ toOpen, setIsopen }) => {
       role="presentation"
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
+      textAlign="center"
     >
       <Box
         sx={{
@@ -124,6 +132,21 @@ const AppMenu = ({ toOpen, setIsopen }) => {
           labelPlacement="start"
         />
       </FormGroup>
+      {user && (
+        <>
+          <Divider variant="middle" />
+          <Button
+            sx={{ marginTop: 2 }}
+            variant="outlined"
+            onClick={() => {
+              Cookies.remove("user");
+              Cookies.remove("token");
+            }}
+          >
+            Logout
+          </Button>
+        </>
+      )}
     </Box>
   );
 

@@ -9,20 +9,30 @@ import {
   FormControl,
   OutlinedInput,
   Button,
+  formLabelClasses,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import ColorModeContext from "../../context/ColorModeContext";
 import Link from "next/link";
 import AppMenu from "../menu";
 import CartIcon from "./cartIcon";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { parseCookies } from "nookies";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 export default function AppbarHeader({ matches }) {
   //console.log(matches);
   const router = useRouter();
+  const [user, setUser] = useState(false);
+
+  useEffect(() => {
+    const cookie = parseCookies();
+    if (cookie && cookie.token) {
+      setUser(true);
+    }
+  }, []);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { mode } = useContext(ColorModeContext);
@@ -170,29 +180,58 @@ export default function AppbarHeader({ matches }) {
       >
         <CartIcon fontSize={matches ? "large" : "medium"} />
       </Button>
-      <Link
-        href="/login"
-        style={{ textDecoration: "none", textAlign: "center" }}
-      >
-        <Button
-          disableRipple
-          variant="outlined"
-          color="secondary"
-          sx={{
-            "&:hover": {
-              bgcolor: "background.default",
-            },
+      {!user && (
+        <Link
+          href="/login"
+          style={{ textDecoration: "none", textAlign: "center" }}
+        >
+          <Button
+            disableRipple
+            variant="outlined"
+            color="secondary"
+            sx={{
+              "&:hover": {
+                bgcolor: "background.default",
+              },
 
+              ...(matches &&
+                router.pathname === "/" && {
+                  boxShadow: boxShadow,
+                  background: boxBackground,
+                }),
+            }}
+          >
+            Login
+          </Button>
+        </Link>
+      )}
+      {user && (
+        <Button
+          onClick={() => router.push("/account")}
+          disableRipple
+          sx={{
+            flexGrow: 0,
+            marginLeft: matches ? 3 : 0,
+            display: user ? "flex" : "none",
+            justifyContent: "center",
+            alignItems: "center",
+            marginRight: { sm: "0px", md: "0px", lg: "24px" },
             ...(matches &&
               router.pathname === "/" && {
                 boxShadow: boxShadow,
                 background: boxBackground,
               }),
+            "&:hover": {
+              bgcolor: "background.default",
+            },
           }}
         >
-          Login
+          <AccountCircleIcon
+            color="secondary"
+            fontSize={matches ? "large" : "medium"}
+          />
         </Button>
-      </Link>
+      )}
       {/*<Actions matches />*/}
 
       {/*</MyList>*/}

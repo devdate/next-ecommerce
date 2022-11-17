@@ -54,6 +54,7 @@ function MyCart() {
                 }}
               >
                 <CardMedia
+                  key={eachItem.id}
                   alt={eachItem.name}
                   sx={{ height: "100%", width: "60px" }}
                 >
@@ -64,10 +65,11 @@ function MyCart() {
                       height: "100%",
                     }}
                   >
-                    <Image src={eachItem.image} fill />
+                    <Image src={eachItem.image} alt={eachItem.name} fill />
                   </div>
                 </CardMedia>
                 <Box
+                  key={eachItem.id}
                   sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
                 >
                   <Typography

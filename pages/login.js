@@ -10,16 +10,19 @@ import {
 import { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import Link from "next/link";
-import { styled } from "@mui/material/styles";
 import { Colors } from "../src/theme";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import axios from "axios";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorOpen, setErrorOpen] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -28,15 +31,32 @@ const Login = () => {
     setErrorOpen(false);
   };
 
-  const loginHandler = () => {
+  const loginHandler = async (e) => {
+    e.preventDefault();
     setLoading(true);
     setIsSubmitted(true);
     console.log("clicked");
-    if (!username || !password) {
+    if (!email || !password) {
       setLoading(false);
       setErrorMsg("Please check all fields");
       setErrorOpen(true);
       return;
+    }
+    try {
+      const res = await axios.post(`${process.env.PUBLIC_URL}/api/login`, {
+        email,
+        password,
+      });
+      console.log(res);
+      Cookies.set("token", res.data.token);
+      Cookies.set("user", res.data.user);
+      setLoading(false);
+      router.push("/");
+    } catch (err) {
+      setLoading(false);
+      setErrorMsg(err.response.data.error);
+      setErrorOpen(true);
+      console.log(err);
     }
   };
 
@@ -55,14 +75,14 @@ const Login = () => {
       </Typography>
       <Card sx={{ maxWidth: "400px", width: "100%", padding: 4, marginTop: 4 }}>
         <TextField
-          id="username"
+          id="email"
           label="Email"
           fullWidth
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          error={isSubmitted && username === ""}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          error={isSubmitted && email === ""}
           helperText={
-            isSubmitted && username === "" ? "This field is required" : ""
+            isSubmitted && email === "" ? "This field is required" : ""
           }
         />
         <TextField

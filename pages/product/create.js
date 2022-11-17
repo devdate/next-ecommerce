@@ -13,6 +13,7 @@ import SendIcon from "@mui/icons-material/Send";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Image from "next/image";
 import axios from "axios";
+import { parseCookies } from "nookies";
 
 const Create = () => {
   const [productName, setProductName] = useState("");
@@ -301,5 +302,18 @@ const Create = () => {
     </Box>
   );
 };
+
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx);
+  const user = cookie.user ? JSON.parse(cookie.user) : "";
+  if (user.role != "admin") {
+    const { res } = ctx;
+    res.writeHead(302, { Location: "/" });
+    res.end();
+  }
+  return {
+    props: {},
+  };
+}
 
 export default Create;
