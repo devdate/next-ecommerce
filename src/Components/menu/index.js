@@ -14,7 +14,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import React, { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { border } from "@mui/system";
 import NextLink from "next/link";
@@ -22,15 +22,32 @@ import MaterialUISwitch from "../../styles/menu";
 import ColorModeContext from "../../context/ColorModeContext";
 import Cookies from "js-cookie";
 import { parseCookies } from "nookies";
+import { useRouter } from "next/router";
 
 const AppMenu = ({ toOpen, setIsopen }) => {
   const { mode, toggleColorMode } = useContext(ColorModeContext);
-  let user = false;
-  const { token } = parseCookies();
-  if (token) {
-    user = true;
-  }
+  const [userExists, setUser] = useState(false);
+  const { token, user: userString } = parseCookies();
+  const user = userString ? JSON.parse(userString) : null;
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log(user);
+    if (token) {
+      setUser(true);
+    } else {
+      setUser(false);
+    }
+  }, [token]);
   var doNotClose = false;
+
+  const logoutHandler = () => {
+    Cookies.remove("user");
+    Cookies.remove("token");
+    if (router.pathname === "/account") {
+      router.push("/login");
+    }
+  };
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -77,11 +94,19 @@ const AppMenu = ({ toOpen, setIsopen }) => {
       <Box
         sx={{
           display: "flex",
-          justifyContent: "right",
+          justifyContent: "flex-end",
           padding: 2,
           alignItems: "center",
         }}
       >
+        <Typography
+          color="secondary"
+          sx={{ wordBreak: "break-word", flex: 1 }}
+          maxWidth={150}
+          textAlign="center"
+        >
+          {user ? `Hi! ${user.name}` : "Welcome Guest!"}
+        </Typography>
         <Button
           variant="outlined"
           color="secondary"
@@ -132,16 +157,13 @@ const AppMenu = ({ toOpen, setIsopen }) => {
           labelPlacement="start"
         />
       </FormGroup>
-      {user && (
+      {userExists && (
         <>
           <Divider variant="middle" />
           <Button
             sx={{ marginTop: 2 }}
             variant="outlined"
-            onClick={() => {
-              Cookies.remove("user");
-              Cookies.remove("token");
-            }}
+            onClick={logoutHandler}
           >
             Logout
           </Button>

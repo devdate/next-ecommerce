@@ -285,12 +285,18 @@ const Create = () => {
           </Box>
         </Box>
       </Card>
-      <Snackbar open={errorOpen} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={errorOpen}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
           {errorMsg}
         </Alert>
       </Snackbar>
       <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={successOpen}
         autoHideDuration={6000}
         onClose={handleClose}

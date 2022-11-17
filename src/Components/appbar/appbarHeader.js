@@ -26,13 +26,16 @@ export default function AppbarHeader({ matches }) {
   //console.log(matches);
   const router = useRouter();
   const [user, setUser] = useState(false);
+  const { token } = parseCookies();
 
   useEffect(() => {
-    const cookie = parseCookies();
-    if (cookie && cookie.token) {
+    console.log(token);
+    if (token) {
       setUser(true);
+    } else {
+      setUser(false);
     }
-  }, []);
+  }, [token]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { mode } = useContext(ColorModeContext);
