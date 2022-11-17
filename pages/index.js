@@ -6,8 +6,19 @@ import styles from "../styles/Home.module.css";
 import Products from "../src/Components/products";
 import Parallax from "../src/Components/parallax";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function Home({ productsData }) {
+  // const [productsData, setProductsData] = useState([]);
+
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const res = await axios.get(`${process.env.PUBLIC_URL}/api/products`);
+  //     setProductsData(res.data);
+  //   }
+  //   fetchData();
+  // }, [productsData]);
+
   return (
     <div className={styles.container}>
       <Head>
