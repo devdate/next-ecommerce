@@ -82,6 +82,13 @@ export const darkTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: "20px",
+          "& .hidden-button": {
+            opacity: 0,
+          },
+          "&:hover .hidden-button": {
+            opacity: 1,
+            transition: "all 0.2s linear",
+          },
         },
       },
     },
@@ -135,6 +142,13 @@ export const lightTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: "20px",
+          "& .hidden-button": {
+            opacity: 0,
+          },
+          "&:hover .hidden-button": {
+            opacity: 1,
+            transition: "all 0.2s linear",
+          },
         },
       },
     },

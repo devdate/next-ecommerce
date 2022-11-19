@@ -13,8 +13,8 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useContext, useState, useEffect } from "react";
-import ColorModeContext from "../../context/ColorModeContext";
+import { useContext, useState, useEffect, useLayoutEffect } from "react";
+import ColorModeContext, { UserContext } from "../../context/ColorModeContext";
 import Link from "next/link";
 import AppMenu from "../menu";
 import CartIcon from "./cartIcon";
@@ -26,14 +26,19 @@ export default function AppbarHeader({ matches }) {
   //console.log(matches);
   const router = useRouter();
   const [user, setUser] = useState(false);
-  const { token } = parseCookies();
+  const [userRendered, setUserRendered] = useState(false);
+  //const { token } = parseCookies();
+
+  const { token } = useContext(UserContext);
 
   useEffect(() => {
     console.log(token);
     if (token) {
       setUser(true);
+      setUserRendered(true);
     } else {
       setUser(false);
+      setUserRendered(true);
     }
   }, [token]);
 
@@ -183,7 +188,7 @@ export default function AppbarHeader({ matches }) {
       >
         <CartIcon fontSize={matches ? "large" : "medium"} />
       </Button>
-      {!user && (
+      {!user && userRendered && (
         <Link
           href="/login"
           style={{ textDecoration: "none", textAlign: "center" }}
@@ -208,14 +213,13 @@ export default function AppbarHeader({ matches }) {
           </Button>
         </Link>
       )}
-      {user && (
+      {user && userRendered && (
         <Button
           onClick={() => router.push("/account")}
           disableRipple
           sx={{
             flexGrow: 0,
             marginLeft: matches ? 3 : 0,
-            display: user ? "flex" : "none",
             justifyContent: "center",
             alignItems: "center",
             marginRight: { sm: "0px", md: "0px", lg: "24px" },

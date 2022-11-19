@@ -27,9 +27,7 @@ export default async (req, res) => {
         expiresIn: "7d",
       });
       const { name, email, role } = user;
-      res
-        .status(201)
-        .json({ token, user: JSON.stringify({ name, email, role }) });
+      res.status(201).json({ token, user: { name, email, role } });
     } else {
       res.status(401).json({ error: "Incorrect Credentials" });
     }

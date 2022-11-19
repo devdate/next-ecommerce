@@ -7,13 +7,15 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import Link from "next/link";
 import { Colors } from "../src/theme";
 import Cookies from "js-cookie";
+import { parseCookies } from "nookies";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { UserContext } from "../src/context/ColorModeContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -23,6 +25,7 @@ const Login = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { setUserContext } = useContext(UserContext);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -48,8 +51,7 @@ const Login = () => {
         password,
       });
       console.log(res);
-      Cookies.set("token", res.data.token);
-      Cookies.set("user", res.data.user);
+      setUserContext(res.data.token, res.data.user);
       setLoading(false);
       router.push("/");
     } catch (err) {
@@ -130,5 +132,18 @@ const Login = () => {
     </Box>
   );
 };
+
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx);
+  const token = cookie.token;
+  if (token) {
+    const { res } = ctx;
+    res.writeHead(302, { Location: "/account" });
+    res.end();
+  }
+  return {
+    props: {},
+  };
+}
 
 export default Login;

@@ -19,7 +19,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { border } from "@mui/system";
 import NextLink from "next/link";
 import MaterialUISwitch from "../../styles/menu";
-import ColorModeContext from "../../context/ColorModeContext";
+import ColorModeContext, { UserContext } from "../../context/ColorModeContext";
 import Cookies from "js-cookie";
 import { parseCookies } from "nookies";
 import { useRouter } from "next/router";
@@ -27,12 +27,13 @@ import { useRouter } from "next/router";
 const AppMenu = ({ toOpen, setIsopen }) => {
   const { mode, toggleColorMode } = useContext(ColorModeContext);
   const [userExists, setUser] = useState(false);
-  const { token, user: userString } = parseCookies();
-  const user = userString ? JSON.parse(userString) : null;
+  // const { token, user: userString } = parseCookies();
+  //const user = userString ? JSON.parse(userString) : null;
   const router = useRouter();
+  const { token, user, removeUserContext } = useContext(UserContext);
 
   useEffect(() => {
-    console.log(user);
+    //console.log(user);
     if (token) {
       setUser(true);
     } else {
@@ -42,9 +43,11 @@ const AppMenu = ({ toOpen, setIsopen }) => {
   var doNotClose = false;
 
   const logoutHandler = () => {
-    Cookies.remove("user");
-    Cookies.remove("token");
-    if (router.pathname === "/account") {
+    removeUserContext();
+    if (
+      router.pathname === "/account" ||
+      router.pathname === "/product/create"
+    ) {
       router.push("/login");
     }
   };
@@ -158,16 +161,32 @@ const AppMenu = ({ toOpen, setIsopen }) => {
         />
       </FormGroup>
       {userExists && (
-        <>
-          <Divider variant="middle" />
-          <Button
-            sx={{ marginTop: 2 }}
-            variant="outlined"
-            onClick={logoutHandler}
-          >
-            Logout
-          </Button>
-        </>
+        <Box flexDirection="column" display="flex" justifyContent="center">
+          <Divider variant="middle" sx={{ marginTop: 2 }} />
+          {user && user.role != "user" && (
+            <>
+              <Box>
+                <Button
+                  sx={{ marginTop: 2, flex: 0 }}
+                  variant="outlined"
+                  onClick={() => router.push("/admin")}
+                >
+                  Admin Panel
+                </Button>
+              </Box>
+            </>
+          )}
+
+          <Box>
+            <Button
+              sx={{ marginTop: 2 }}
+              variant="outlined"
+              onClick={logoutHandler}
+            >
+              Logout
+            </Button>
+          </Box>
+        </Box>
       )}
     </Box>
   );

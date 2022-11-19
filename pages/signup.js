@@ -16,6 +16,7 @@ import { styled } from "@mui/material/styles";
 import { Colors } from "../src/theme";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { parseCookies } from "nookies";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -28,6 +29,7 @@ const SignUp = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [successOpen, setSuccessOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loginStatus, setloginStatus] = useState(false);
 
   const router = useRouter();
 
@@ -201,5 +203,18 @@ const SignUp = () => {
     </Box>
   );
 };
+
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx);
+  const token = cookie.token ? JSON.token : "";
+  if (token) {
+    const { res } = ctx;
+    res.writeHead(302, { Location: "/account" });
+    res.end();
+  }
+  return {
+    props: {},
+  };
+}
 
 export default SignUp;
