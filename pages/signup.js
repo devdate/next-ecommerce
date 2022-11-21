@@ -8,7 +8,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import InfoIcon from "@mui/icons-material/Info";
 import Link from "next/link";
@@ -28,7 +28,11 @@ const SignUp = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loginStatus, setloginStatus] = useState(false);
-  const { OpenAlert, alertData } = useContext(alertContext);
+  const { OpenAlert, alertData, toggleLoading } = useContext(alertContext);
+
+  useEffect(() => {
+    toggleLoading(false);
+  }, []);
 
   const router = useRouter();
 
@@ -41,6 +45,7 @@ const SignUp = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    toggleLoading(true);
     setEmailTouched(true);
     setLoading(true);
     setIsSubmitted(true);
@@ -58,6 +63,7 @@ const SignUp = () => {
       alertData.msg = "Please check all fields";
       alertData.time = 2000;
       OpenAlert();
+      toggleLoading(false);
       return;
     }
     try {
@@ -79,6 +85,7 @@ const SignUp = () => {
       alertData.time = 3000;
       OpenAlert();
       console.log(err);
+      toggleLoading(false);
     }
   };
 
@@ -173,7 +180,11 @@ const SignUp = () => {
         </Box>
         <Typography fontSize={16} fontWeight={600} marginTop={2}>
           Already a User?{" "}
-          <Link href="/login" style={{ color: Colors.primary }}>
+          <Link
+            href="/login"
+            onClick={() => toggleLoading(true)}
+            style={{ color: Colors.primary }}
+          >
             Login
           </Link>
         </Typography>

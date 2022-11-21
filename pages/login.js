@@ -7,7 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import Link from "next/link";
 import { Colors } from "../src/theme";
@@ -24,10 +24,15 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { setUserContext } = useContext(UserContext);
-  const { OpenAlert, alertData } = useContext(alertContext);
+  const { OpenAlert, alertData, toggleLoading } = useContext(alertContext);
+
+  useEffect(() => {
+    toggleLoading(false);
+  }, []);
 
   const loginHandler = async (e) => {
     e.preventDefault();
+    toggleLoading(true);
     setLoading(true);
     setIsSubmitted(true);
     //console.log("clicked");
@@ -59,6 +64,7 @@ const Login = () => {
       alertData.time = 2000;
       OpenAlert();
       console.log(err.response.data.error);
+      toggleLoading(false);
     }
   };
 
@@ -114,7 +120,11 @@ const Login = () => {
         </Box>
         <Typography fontSize={16} fontWeight={600} marginTop={2}>
           Not a User?{" "}
-          <Link href="/signup" style={{ color: Colors.primary }}>
+          <Link
+            href="/signup"
+            style={{ color: Colors.primary }}
+            onClick={() => toggleLoading(true)}
+          >
             Sign Up
           </Link>
         </Typography>

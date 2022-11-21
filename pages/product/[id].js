@@ -21,6 +21,7 @@ import {
 import Router from "next/router";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+import { useEffect } from "react";
 
 const Product = ({ game }) => {
   // const game = {
@@ -34,7 +35,7 @@ const Product = ({ game }) => {
 
   const { cart, addItemtoCart, removeItemfromCart } = useContext(CartContext);
   const { token, removeUserContext } = useContext(UserContext);
-  const { OpenAlert, alertData } = useContext(alertContext);
+  const { OpenAlert, alertData, toggleLoading } = useContext(alertContext);
 
   const [isReadMore, setIsReadMore] = useState(true);
   const toggleReadMore = () => {
@@ -45,6 +46,10 @@ const Product = ({ game }) => {
   const changeGameVariant = (id) => {
     setGameVariant(id);
   };
+
+  useEffect(() => {
+    toggleLoading(false);
+  }, []);
 
   const onClickHandler = async (addproduct, variant) => {
     if (!token) {

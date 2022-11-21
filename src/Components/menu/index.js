@@ -20,6 +20,7 @@ import { border } from "@mui/system";
 import NextLink from "next/link";
 import MaterialUISwitch from "../../styles/menu";
 import ColorModeContext, {
+  alertContext,
   CartContext,
   UserContext,
 } from "../../context/ColorModeContext";
@@ -35,6 +36,7 @@ const AppMenu = ({ toOpen, setIsopen }) => {
   const router = useRouter();
   const { token, user, removeUserContext } = useContext(UserContext);
   const { resetCart } = useContext(CartContext);
+  const { toggleLoading } = useContext(alertContext);
 
   useEffect(() => {
     //console.log(user);
@@ -110,10 +112,11 @@ const AppMenu = ({ toOpen, setIsopen }) => {
         <Typography
           color="secondary"
           sx={{ wordBreak: "break-word", flex: 1 }}
+          fontWeight={600}
           maxWidth={150}
           textAlign="center"
         >
-          {user ? `Hi! ${user.name}` : "Welcome Guest!"}
+          {user ? `Hi, ${user.name}` : "Welcome Guest!"}
         </Typography>
         <Button
           variant="outlined"
@@ -129,6 +132,11 @@ const AppMenu = ({ toOpen, setIsopen }) => {
           <NextLink
             key={eachItem.name}
             href={eachItem.link}
+            onClick={() => {
+              if (router.pathname !== eachItem.link) {
+                toggleLoading(true);
+              }
+            }}
             passHref
             style={{ textDecoration: "none", textAlign: "center" }}
           >

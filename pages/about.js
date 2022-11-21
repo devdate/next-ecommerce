@@ -1,8 +1,13 @@
 import { Box, Card, Container, Grid, Link, Typography } from "@mui/material";
 import Image from "next/image";
-import React from "react";
+import { useContext, useEffect } from "react";
+import { alertContext } from "../src/context/ColorModeContext";
 
 function About() {
+  const { toggleLoading } = useContext(alertContext);
+  useEffect(() => {
+    toggleLoading(false);
+  }, []);
   return (
     <Container maxWidth="xl" disableGutters>
       <Grid container padding="20px 16px">

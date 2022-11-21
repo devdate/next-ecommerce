@@ -33,7 +33,7 @@ export default function AppbarHeader({ matches }) {
   const [user, setUser] = useState(false);
   const [userRendered, setUserRendered] = useState(false);
   const { resetCart, cart, totalQuantity } = useContext(CartContext);
-  const { OpenAlert, alertData } = useContext(alertContext);
+  const { OpenAlert, alertData, toggleLoading } = useContext(alertContext);
 
   //const { token } = parseCookies();
 
@@ -141,7 +141,14 @@ export default function AppbarHeader({ matches }) {
         <MenuIcon fontSize={matches ? "large" : "medium"} />
       </Button>
       <AppMenu toOpen={isMenuOpen} setIsopen={toggleMenu} />
-      <Link href="/" style={{ flexGrow: matches ? 0 : 1 }}>
+      <Link
+        href="/"
+        style={{ flexGrow: matches ? 0 : 1 }}
+        onClick={() => {
+          router.pathname !== "/" ? toggleLoading(true) : null;
+          //console.log(router.pathname);
+        }}
+      >
         <AppbarHeaderImage paddingRight={{ xs: "4px", sm: "4px", md: "24px" }}>
           <Image
             priority
@@ -208,6 +215,9 @@ export default function AppbarHeader({ matches }) {
       </FormControl>
       <Button
         disableRipple
+        onClick={() =>
+          router.pathname !== "/cart" ? toggleLoading(true) : null
+        }
         sx={{
           flexGrow: 0,
           marginLeft: matches ? 3 : 0,
@@ -231,6 +241,9 @@ export default function AppbarHeader({ matches }) {
         <Link
           href="/login"
           style={{ textDecoration: "none", textAlign: "center" }}
+          onClick={() =>
+            router.pathname !== "/login" ? toggleLoading(true) : null
+          }
         >
           <Button
             disableRipple
@@ -254,7 +267,12 @@ export default function AppbarHeader({ matches }) {
       )}
       {user && userRendered && (
         <Button
-          onClick={() => router.push("/account")}
+          onClick={() => {
+            if (router.pathname !== "/account") {
+              toggleLoading(true);
+              router.push("/account");
+            }
+          }}
           disableRipple
           sx={{
             flexGrow: 0,

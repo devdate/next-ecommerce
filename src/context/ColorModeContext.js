@@ -15,6 +15,8 @@ export const alertContext = React.createContext({
   OpenAlert: () => {},
   alertOpen: false,
   alertData: {},
+  showLoader: true,
+  toggleLoading: () => {},
 });
 
 export const CartContext = React.createContext({
@@ -39,6 +41,7 @@ const initialMode = parseCookies().mode;
 export const ColorModeContextProvider = (props) => {
   const [alertOpen, setAlertOpen] = React.useState(false);
   const [alertData, setAlertData] = React.useState({});
+  const [showLoader, setShowLoader] = React.useState(true);
   const [mode, setMode] = React.useState("light");
   //console.log(initialMode);
   const [token, setToken] = React.useState(parseCookies().token);
@@ -79,6 +82,7 @@ export const ColorModeContextProvider = (props) => {
   const cartItems = React.useMemo(
     () => ({
       addItemtoCart: async (item, variant, authtoken) => {
+        setShowLoader(true);
         try {
           await axios.put(
             `${process.env.PUBLIC_URL}/api/cart`,
@@ -94,6 +98,7 @@ export const ColorModeContextProvider = (props) => {
           );
         } catch (err) {
           console.log(err);
+          setShowLoader(false);
           return err;
         }
 
@@ -112,9 +117,11 @@ export const ColorModeContextProvider = (props) => {
             ? newCart
             : [...prevCart, { ...item, quantity: 1, variant }];
         });
+        setShowLoader(false);
       },
       removeItemfromCart: async (item, variant, authtoken) => {
-        console.log(authtoken);
+        //console.log(authtoken);
+        setShowLoader(true);
         try {
           await axios.delete(`${process.env.PUBLIC_URL}/api/cart`, {
             data: {
@@ -127,6 +134,7 @@ export const ColorModeContextProvider = (props) => {
           });
         } catch (err) {
           console.log(err);
+          setShowLoader(false);
           return err;
         }
 
@@ -143,6 +151,7 @@ export const ColorModeContextProvider = (props) => {
           );
           return removedCart;
         });
+        setShowLoader(false);
       },
       resetCart: (viewCart, totalPrice, totalQuantity) => {
         //console.log(viewCart, totalQuantity, totalPrice);
@@ -165,10 +174,14 @@ export const ColorModeContextProvider = (props) => {
       OpenAlert: () => {
         setAlertOpen(true);
       },
+      toggleLoading: (open) => {
+        setShowLoader(open);
+      },
       alertOpen,
+      showLoader,
       alertData,
     }),
-    [alertOpen]
+    [alertOpen, showLoader]
   );
 
   const colorMode = React.useMemo(

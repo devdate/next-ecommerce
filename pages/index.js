@@ -6,18 +6,15 @@ import styles from "../styles/Home.module.css";
 import Products from "../src/Components/products";
 import Parallax from "../src/Components/parallax";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
+import { alertContext } from "../src/context/ColorModeContext";
 
 export default function Home({ productsData }) {
-  // const [productsData, setProductsData] = useState([]);
+  const { toggleLoading } = useContext(alertContext);
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const res = await axios.get(`${process.env.PUBLIC_URL}/api/products`);
-  //     setProductsData(res.data);
-  //   }
-  //   fetchData();
-  // }, [productsData]);
+  useEffect(() => {
+    toggleLoading(false);
+  }, []);
 
   return (
     <div className={styles.container}>

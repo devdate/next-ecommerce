@@ -25,7 +25,7 @@ import Router from "next/router";
 
 export default function SingleProduct({ product, matches }) {
   const { cart, addItemtoCart, removeItemfromCart } = useContext(CartContext);
-  const { OpenAlert, alertData } = useContext(alertContext);
+  const { OpenAlert, alertData, toggleLoading } = useContext(alertContext);
   const { token, removeUserContext } = useContext(UserContext);
 
   const onClickHandler = async (addproduct, variant) => {
@@ -53,7 +53,10 @@ export default function SingleProduct({ product, matches }) {
 
   return (
     <Card sx={{ maxWidth: 380, marginTop: "10px", marginBottom: "10px" }}>
-      <Link href={`/product/${product._id}`}>
+      <Link
+        href={`/product/${product._id}`}
+        onClick={() => toggleLoading(true)}
+      >
         <CardMedia alt={product.name} sx={{ height: "240px", width: "240px" }}>
           <div style={{ position: "relative", width: "100%", height: "100%" }}>
             <Image alt={product.name} src={product.image} fill />

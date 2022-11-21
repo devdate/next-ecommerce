@@ -33,7 +33,7 @@ function MyCart({ cartfromServer, error }) {
   const { cart, totalPrice, addItemtoCart, removeItemfromCart, resetCart } =
     useContext(CartContext);
   const { token, user, removeUserContext } = useContext(UserContext);
-  const { OpenAlert, alertData } = useContext(alertContext);
+  const { OpenAlert, alertData, toggleLoading } = useContext(alertContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -45,7 +45,7 @@ function MyCart({ cartfromServer, error }) {
       OpenAlert();
       router.push("/login");
     }
-    console.log(cartfromServer);
+    //console.log(cartfromServer);
     if (
       cartfromServer &&
       cartfromServer.viewCart &&
@@ -57,6 +57,7 @@ function MyCart({ cartfromServer, error }) {
         cartfromServer.totalQuantity
       );
     }
+    toggleLoading(false);
   }, []);
 
   return (
