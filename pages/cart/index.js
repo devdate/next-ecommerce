@@ -15,13 +15,49 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import React, { useContext } from "react";
-import { CartContext } from "../../src/context/ColorModeContext";
+import {
+  alertContext,
+  CartContext,
+  UserContext,
+} from "../../src/context/ColorModeContext";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+import { Ps5Icon, WindowsIcon, XboxIcon } from "../../src/svgicons";
+import NextLink from "next/link";
+import { useEffect } from "react";
+import { parseCookies } from "nookies";
+import axios from "axios";
+import { useRouter } from "next/router";
 
-function MyCart() {
-  const { cart, totalQuantity, totalPrice, addItemtoCart, removeItemfromCart } =
+function MyCart({ cartfromServer, error }) {
+  const { cart, totalPrice, addItemtoCart, removeItemfromCart, resetCart } =
     useContext(CartContext);
+  const { token, user, removeUserContext } = useContext(UserContext);
+  const { OpenAlert, alertData } = useContext(alertContext);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (error) {
+      removeUserContext();
+      alertData.type = "error";
+      alertData.msg = error;
+      alertData.time = 2000;
+      OpenAlert();
+      router.push("/login");
+    }
+    console.log(cartfromServer);
+    if (
+      cartfromServer &&
+      cartfromServer.viewCart &&
+      cartfromServer.viewCart.length > 0
+    ) {
+      resetCart(
+        cartfromServer.viewCart,
+        cartfromServer.totalPrice,
+        cartfromServer.totalQuantity
+      );
+    }
+  }, []);
 
   return (
     <Container maxWidth="xxxl" disableGutters>
@@ -43,7 +79,7 @@ function MyCart() {
           {!!cart.length &&
             cart.map((eachItem) => (
               <Card
-                key={eachItem.id}
+                key={`${eachItem._id}${eachItem.variant}`}
                 sx={{
                   display: "flex",
                   justifyContent: "center",
@@ -54,34 +90,59 @@ function MyCart() {
                 }}
               >
                 <CardMedia
-                  key={eachItem.id}
+                  key={eachItem._id}
                   alt={eachItem.name}
                   sx={{ height: "100%", width: "60px" }}
                 >
-                  <div
-                    style={{
-                      position: "relative",
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  >
-                    <Image src={eachItem.image} alt={eachItem.name} fill />
-                  </div>
+                  <NextLink href={`/product/${eachItem._id}`}>
+                    <div
+                      style={{
+                        position: "relative",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    >
+                      <Image src={eachItem.image} alt={eachItem.name} fill />
+                    </div>
+                  </NextLink>
                 </CardMedia>
                 <Box
                   key={eachItem.id}
                   sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
                 >
-                  <Typography
-                    variant="h6"
+                  <Box
                     sx={{
-                      flexGrow: 1,
-                      paddingLeft: 2,
-                      wordBreak: "break-word",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      paddingRight: 1,
+                      paddingTop: "4px",
                     }}
                   >
-                    {eachItem.name}
-                  </Typography>
+                    <Typography
+                      variant="h6"
+                      fontSize={16}
+                      sx={{
+                        flexGrow: 0,
+                        paddingLeft: 2,
+                        wordBreak: "break-word",
+                      }}
+                    >
+                      {eachItem.name}
+                    </Typography>
+                    {eachItem.variant === 0 && (
+                      <WindowsIcon
+                        viewBox="0 0 71 15"
+                        style={{ width: "85px" }}
+                      />
+                    )}
+                    {eachItem.variant === 1 && (
+                      <XboxIcon viewBox="0 0 66 20" style={{ width: "85px" }} />
+                    )}
+                    {eachItem.variant === 2 && (
+                      <Ps5Icon viewBox="0 0 66 15" style={{ width: "85px" }} />
+                    )}
+                  </Box>
                   <Box
                     sx={{
                       height: "50px",
@@ -97,11 +158,13 @@ function MyCart() {
                         flex: "45%",
                       }}
                     >
-                      ₹{eachItem.prices[0]}{" "}
+                      ₹{eachItem.prices[eachItem.variant]}
                       &nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;
                     </Typography>
                     <IconButton
-                      onClick={() => removeItemfromCart(eachItem)}
+                      onClick={() =>
+                        removeItemfromCart(eachItem, eachItem.variant)
+                      }
                       variant="outlined"
                       size="small"
                       p={0}
@@ -121,7 +184,9 @@ function MyCart() {
                       &nbsp;&nbsp;{eachItem.quantity}&nbsp;&nbsp;
                     </Typography>
                     <IconButton
-                      onClick={() => addItemtoCart(eachItem)}
+                      onClick={() =>
+                        addItemtoCart(eachItem, eachItem.variant, token)
+                      }
                       variant="outlined"
                       size="small"
                       p={0}
@@ -138,7 +203,7 @@ function MyCart() {
                       }}
                     >
                       &nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;₹
-                      {eachItem.prices[0] * eachItem.quantity}
+                      {eachItem.prices[eachItem.variant] * eachItem.quantity}
                     </Typography>
                   </Box>
                 </Box>
@@ -263,6 +328,42 @@ function MyCart() {
       </Grid>
     </Container>
   );
+}
+
+export async function getServerSideProps(ctx) {
+  const { token } = parseCookies(ctx);
+  const { res } = ctx;
+  if (!token) {
+    // res.writeHead(302, { Location: "/login" });
+    // res.end();
+    // return;
+    return {
+      props: {
+        error: "You Must Login",
+      },
+    };
+  }
+  try {
+    const resp = await axios.get(`${process.env.PUBLIC_URL}/api/cart`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    return {
+      props: {
+        cartfromServer: resp.data,
+      },
+    };
+  } catch (err) {
+    console.log(err.response.data);
+    //res.writeHead(401, { Location: "/login" });
+    //res.end();
+    return {
+      props: {
+        error: err.response.data.error,
+      },
+    };
+  }
 }
 
 export default MyCart;

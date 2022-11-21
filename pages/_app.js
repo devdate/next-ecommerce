@@ -8,6 +8,7 @@ import { ColorModeContextProvider } from "../src/context/ColorModeContext";
 import "../styles/globals.css";
 import Appbar from "../src/Components/appbar";
 import Footer from "../src/Components/footer";
+import Toast from "../src/Components/toast/toast";
 
 // Client-side cache shared for the whole session
 // of the user in the browser.
@@ -25,6 +26,7 @@ export default function MyApp(props) {
       <ColorModeContextProvider>
         <CssBaseline />
         <Appbar />
+        <Toast />
         <Component {...pageProps} />
         <Footer />
       </ColorModeContextProvider>

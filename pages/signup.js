@@ -8,7 +8,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import InfoIcon from "@mui/icons-material/Info";
 import Link from "next/link";
@@ -17,6 +17,7 @@ import { Colors } from "../src/theme";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { parseCookies } from "nookies";
+import { alertContext } from "../src/context/ColorModeContext";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -25,21 +26,11 @@ const SignUp = () => {
   const [emailTouched, setEmailTouched] = useState(false);
   const [password, setPassword] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [errorOpen, setErrorOpen] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
-  const [successOpen, setSuccessOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loginStatus, setloginStatus] = useState(false);
+  const { OpenAlert, alertData } = useContext(alertContext);
 
   const router = useRouter();
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setErrorOpen(false);
-    setSuccessOpen(false);
-  };
 
   const validateEmail = (email) => {
     setUserEmail(email);
@@ -53,7 +44,7 @@ const SignUp = () => {
     setEmailTouched(true);
     setLoading(true);
     setIsSubmitted(true);
-    console.log("clicked");
+    //console.log("clicked");
     if (
       !username ||
       !password ||
@@ -63,8 +54,10 @@ const SignUp = () => {
       password.length > 20
     ) {
       setLoading(false);
-      setErrorMsg("Please check all fields");
-      setErrorOpen(true);
+      alertData.type = "error";
+      alertData.msg = "Please check all fields";
+      alertData.time = 2000;
+      OpenAlert();
       return;
     }
     try {
@@ -73,13 +66,18 @@ const SignUp = () => {
         email: userEmail,
         password,
       });
-      setSuccessOpen(true);
+      alertData.type = "success";
+      alertData.msg = "User successfully created !";
+      alertData.time = 3000;
+      OpenAlert();
       setLoading(false);
       router.push("/login");
     } catch (err) {
       setLoading(false);
-      setErrorMsg(err.response.data.error);
-      setErrorOpen(true);
+      alertData.type = "error";
+      alertData.msg = err.response.data.error;
+      alertData.time = 3000;
+      OpenAlert();
       console.log(err);
     }
   };
@@ -180,26 +178,6 @@ const SignUp = () => {
           </Link>
         </Typography>
       </Card>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={errorOpen}
-        autoHideDuration={6000}
-        onClose={handleClose}
-      >
-        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          {errorMsg}
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={successOpen}
-        autoHideDuration={6000}
-        onClose={handleClose}
-      >
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          Product Created Successfully!
-        </Alert>
-      </Snackbar>
     </Box>
   );
 };

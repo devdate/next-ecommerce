@@ -13,16 +13,42 @@ import Image from "next/image";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Link from "next/link";
 import { useContext } from "react";
-import { CartContext } from "../../context/ColorModeContext";
+import {
+  alertContext,
+  CartContext,
+  UserContext,
+} from "../../context/ColorModeContext";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { WindowsIcon } from "../../../src/svgicons";
+import Router from "next/router";
 
 export default function SingleProduct({ product, matches }) {
   const { cart, addItemtoCart, removeItemfromCart } = useContext(CartContext);
+  const { OpenAlert, alertData } = useContext(alertContext);
+  const { token, removeUserContext } = useContext(UserContext);
 
-  const onClickHandler = (addproduct) => {
-    addItemtoCart(addproduct);
+  const onClickHandler = async (addproduct, variant) => {
+    if (!token) {
+      alertData.type = "error";
+      alertData.msg = "Please login first";
+      alertData.time = 2000;
+      OpenAlert();
+      removeUserContext();
+      Router.push("/login");
+      return;
+    }
+    const err = await addItemtoCart(addproduct, variant, token);
+    //console.log("err", err);
+    if (err) {
+      alertData.type = "error";
+      alertData.msg = err.response.data.error;
+      alertData.time = 2000;
+      OpenAlert();
+      removeUserContext();
+      Router.push("/login");
+      return;
+    }
   };
 
   return (
@@ -50,7 +76,7 @@ export default function SingleProduct({ product, matches }) {
           </Typography>
         </Link>
         <Typography variant="h5" component="div" align="center">
-          ₹{product.prices[0]}
+          <span style={{ fontSize: 14 }}>Starts from</span> ₹{product.prices[0]}
         </Typography>
       </CardContent>
       <CardActions
@@ -70,7 +96,9 @@ export default function SingleProduct({ product, matches }) {
           sx={{ borderRightWidth: 2, borderColor: "secondary.main" }}
         />
         {!!cart.length &&
-          cart.findIndex((eachItem) => eachItem._id === product._id) >= 0 && (
+          cart.findIndex(
+            (eachItem) => eachItem._id === product._id && eachItem.variant === 0
+          ) >= 0 && (
             <Box
               sx={{
                 display: "flex",
@@ -85,7 +113,7 @@ export default function SingleProduct({ product, matches }) {
               />
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <IconButton
-                  onClick={() => removeItemfromCart(product)}
+                  onClick={() => removeItemfromCart(product, 0)}
                   variant="outlined"
                   size="small"
                   p={0}
@@ -109,7 +137,7 @@ export default function SingleProduct({ product, matches }) {
                   &nbsp;&nbsp;
                 </Typography>
                 <IconButton
-                  onClick={() => addItemtoCart(product)}
+                  onClick={() => onClickHandler(product, 0)}
                   variant="outlined"
                   size="small"
                   p={0}
@@ -122,11 +150,13 @@ export default function SingleProduct({ product, matches }) {
             </Box>
           )}
         {(!cart.length ||
-          cart.findIndex((eachItem) => eachItem._id === product._id) < 0) && (
+          cart.findIndex(
+            (eachItem) => eachItem._id === product._id && eachItem.variant === 0
+          ) < 0) && (
           <Button
             size="medium"
             variant="contained"
-            onClick={() => onClickHandler(product)}
+            onClick={() => onClickHandler(product, 0)}
           >
             Add To Cart
           </Button>

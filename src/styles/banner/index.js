@@ -7,6 +7,7 @@ export const BannerContainer = styled(Box)(() => ({
   alignItems: "center",
   padding: "2px 8px",
   height: "100%",
+  position: "relative",
 }));
 
 export const BannerContainerPromotion = styled(Grid)(() => ({

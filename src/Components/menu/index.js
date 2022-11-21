@@ -19,7 +19,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import { border } from "@mui/system";
 import NextLink from "next/link";
 import MaterialUISwitch from "../../styles/menu";
-import ColorModeContext, { UserContext } from "../../context/ColorModeContext";
+import ColorModeContext, {
+  CartContext,
+  UserContext,
+} from "../../context/ColorModeContext";
 import Cookies from "js-cookie";
 import { parseCookies } from "nookies";
 import { useRouter } from "next/router";
@@ -31,6 +34,7 @@ const AppMenu = ({ toOpen, setIsopen }) => {
   //const user = userString ? JSON.parse(userString) : null;
   const router = useRouter();
   const { token, user, removeUserContext } = useContext(UserContext);
+  const { resetCart } = useContext(CartContext);
 
   useEffect(() => {
     //console.log(user);
@@ -44,6 +48,7 @@ const AppMenu = ({ toOpen, setIsopen }) => {
 
   const logoutHandler = () => {
     removeUserContext();
+    resetCart([], 0, 0);
     if (
       router.pathname === "/account" ||
       router.pathname === "/product/create"
@@ -170,6 +175,7 @@ const AppMenu = ({ toOpen, setIsopen }) => {
                   sx={{ marginTop: 2, flex: 0 }}
                   variant="outlined"
                   onClick={() => router.push("/admin")}
+                  color="secondary"
                 >
                   Admin Panel
                 </Button>
@@ -182,6 +188,7 @@ const AppMenu = ({ toOpen, setIsopen }) => {
               sx={{ marginTop: 2 }}
               variant="outlined"
               onClick={logoutHandler}
+              color="secondary"
             >
               Logout
             </Button>

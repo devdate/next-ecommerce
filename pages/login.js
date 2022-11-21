@@ -15,34 +15,27 @@ import Cookies from "js-cookie";
 import { parseCookies } from "nookies";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { UserContext } from "../src/context/ColorModeContext";
+import { alertContext, UserContext } from "../src/context/ColorModeContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [errorOpen, setErrorOpen] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { setUserContext } = useContext(UserContext);
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setErrorOpen(false);
-  };
+  const { OpenAlert, alertData } = useContext(alertContext);
 
   const loginHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
     setIsSubmitted(true);
-    console.log("clicked");
+    //console.log("clicked");
     if (!email || !password) {
-      setLoading(false);
-      setErrorMsg("Please check all fields");
-      setErrorOpen(true);
+      alertData.type = "error";
+      alertData.msg = "Please check all fields";
+      alertData.time = 2000;
+      OpenAlert();
       return;
     }
     try {
@@ -50,15 +43,22 @@ const Login = () => {
         email,
         password,
       });
-      console.log(res);
+      //console.log(res);
       setUserContext(res.data.token, res.data.user);
       setLoading(false);
+      alertData.type = "success";
+      alertData.msg = "Loggen In";
+      alertData.time = 2000;
+      OpenAlert();
+
       router.push("/");
     } catch (err) {
       setLoading(false);
-      setErrorMsg(err.response.data.error);
-      setErrorOpen(true);
-      console.log(err);
+      alertData.type = "error";
+      alertData.msg = err.response.data.error;
+      alertData.time = 2000;
+      OpenAlert();
+      console.log(err.response.data.error);
     }
   };
 
@@ -119,16 +119,6 @@ const Login = () => {
           </Link>
         </Typography>
       </Card>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={errorOpen}
-        autoHideDuration={6000}
-        onClose={handleClose}
-      >
-        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          {errorMsg}
-        </Alert>
-      </Snackbar>
     </Box>
   );
 };

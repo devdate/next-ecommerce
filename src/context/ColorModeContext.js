@@ -3,15 +3,25 @@ import { ThemeProvider } from "@mui/material/styles";
 import lightTheme, { darkTheme } from "../theme";
 import { parseCookies } from "nookies";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 const ColorModeContext = React.createContext({
   toggleColorMode: () => {},
   mode: "light",
 });
 
+export const alertContext = React.createContext({
+  closeAlertOpen: () => {},
+  OpenAlert: () => {},
+  alertOpen: false,
+  alertData: {},
+});
+
 export const CartContext = React.createContext({
   addItemtoCart: () => {},
   removeItemfromCart: () => {},
+  resetCart: () => {},
+  setCart: () => {},
   cart: [],
   totalQuantity: 0,
   totalPrice: 0,
@@ -27,8 +37,10 @@ export const UserContext = React.createContext({
 const initialMode = parseCookies().mode;
 
 export const ColorModeContextProvider = (props) => {
+  const [alertOpen, setAlertOpen] = React.useState(false);
+  const [alertData, setAlertData] = React.useState({});
   const [mode, setMode] = React.useState("light");
-  console.log(initialMode);
+  //console.log(initialMode);
   const [token, setToken] = React.useState(parseCookies().token);
   const [user, setUser] = React.useState(
     parseCookies().user ? JSON.parse(parseCookies().user) : null
@@ -53,8 +65,8 @@ export const ColorModeContextProvider = (props) => {
         Cookies.set("user", JSON.stringify(userInfo));
       },
       removeUserContext: () => {
-        setUser(null);
         setToken(null);
+        setUser(null);
         Cookies.remove("token");
         Cookies.remove("user");
       },
@@ -66,27 +78,47 @@ export const ColorModeContextProvider = (props) => {
 
   const cartItems = React.useMemo(
     () => ({
-      addItemtoCart: (item) => {
+      addItemtoCart: async (item, variant, authtoken) => {
+        try {
+          await axios.put(
+            `${process.env.PUBLIC_URL}/api/cart`,
+            {
+              product: item,
+              variant,
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + authtoken,
+              },
+            }
+          );
+        } catch (err) {
+          console.log(err);
+          return err;
+        }
+
         setTotalQuantity((prevTotal) => prevTotal + 1);
-        setTotalPrice((prevTotal) => prevTotal + item.prices[0]);
+        setTotalPrice((prevTotal) => prevTotal + item.prices[variant]);
         setCart((prevCart) => {
           let exists = false;
           const newCart = prevCart.map((eachItem) => {
-            if (eachItem._id === item._id) {
+            if (eachItem._id === item._id && eachItem.variant === variant) {
               exists = true;
               return { ...eachItem, quantity: eachItem.quantity + 1 };
             }
             return { ...eachItem };
           });
-          return exists ? newCart : [...prevCart, { ...item, quantity: 1 }];
+          return exists
+            ? newCart
+            : [...prevCart, { ...item, quantity: 1, variant }];
         });
       },
-      removeItemfromCart: (item) => {
+      removeItemfromCart: (item, variant) => {
         setTotalQuantity((prevTotal) => prevTotal - 1);
-        setTotalPrice((prevTotal) => prevTotal - item.prices[0]);
+        setTotalPrice((prevTotal) => prevTotal - item.prices[variant]);
         setCart((prevCart) => {
           const reducedCart = prevCart.map((eachItem) =>
-            eachItem._id === item._id
+            eachItem._id === item._id && eachItem.variant === variant
               ? { ...eachItem, quantity: eachItem.quantity - 1 }
               : { ...eachItem }
           );
@@ -96,11 +128,31 @@ export const ColorModeContextProvider = (props) => {
           return removedCart;
         });
       },
+      resetCart: (viewCart, totalPrice, totalQuantity) => {
+        //console.log(viewCart, totalQuantity, totalPrice);
+        setCart([...viewCart]);
+        setTotalQuantity(totalQuantity);
+        setTotalPrice(totalPrice);
+      },
       cart,
       totalQuantity,
       totalPrice,
     }),
     [cart, totalQuantity, totalPrice]
+  );
+
+  const toast = React.useMemo(
+    () => ({
+      closeAlertOpen: () => {
+        setAlertOpen(false);
+      },
+      OpenAlert: () => {
+        setAlertOpen(true);
+      },
+      alertOpen,
+      alertData,
+    }),
+    [alertOpen]
   );
 
   const colorMode = React.useMemo(
@@ -118,27 +170,15 @@ export const ColorModeContextProvider = (props) => {
     <ColorModeContext.Provider value={colorMode}>
       <UserContext.Provider value={userValues}>
         <CartContext.Provider value={cartItems}>
-          <ThemeProvider theme={mode === "light" ? lightTheme : darkTheme}>
-            {props.children}
-          </ThemeProvider>
+          <alertContext.Provider value={toast}>
+            <ThemeProvider theme={mode === "light" ? lightTheme : darkTheme}>
+              {props.children}
+            </ThemeProvider>
+          </alertContext.Provider>
         </CartContext.Provider>
       </UserContext.Provider>
     </ColorModeContext.Provider>
   );
 };
-
-export async function getServerSideProps(ctx) {
-  const cookie = parseCookies(ctx);
-  const token = cookie.token;
-  const user = cookie.user;
-  console.log("trest", token);
-
-  return {
-    props: {
-      token,
-      user,
-    },
-  };
-}
 
 export default ColorModeContext;

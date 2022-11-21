@@ -14,33 +14,72 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useContext, useState, useEffect, useLayoutEffect } from "react";
-import ColorModeContext, { UserContext } from "../../context/ColorModeContext";
+import ColorModeContext, {
+  alertContext,
+  CartContext,
+  UserContext,
+} from "../../context/ColorModeContext";
 import Link from "next/link";
 import AppMenu from "../menu";
 import CartIcon from "./cartIcon";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import axios from "axios";
 
 export default function AppbarHeader({ matches }) {
   //console.log(matches);
   const router = useRouter();
   const [user, setUser] = useState(false);
   const [userRendered, setUserRendered] = useState(false);
+  const { resetCart, cart, totalQuantity } = useContext(CartContext);
+  const { OpenAlert, alertData } = useContext(alertContext);
+
   //const { token } = parseCookies();
 
-  const { token } = useContext(UserContext);
+  const { token, removeUserContext } = useContext(UserContext);
 
   useEffect(() => {
-    console.log(token);
-    if (token) {
-      setUser(true);
-      setUserRendered(true);
-    } else {
-      setUser(false);
-      setUserRendered(true);
-    }
-  }, [token]);
+    (async () => {
+      //console.log(token);
+      if (token) {
+        setUser(true);
+        setUserRendered(true);
+        try {
+          const resp = await axios.get(`${process.env.PUBLIC_URL}/api/cart`, {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          });
+          if (totalQuantity !== resp.data.totalQuantity) {
+            resetCart(
+              resp.data.viewCart,
+              resp.data.totalPrice,
+              resp.data.totalQuantity
+            );
+          }
+          //console.log(token);
+        } catch (err) {
+          console.log(err.response.data);
+          removeUserContext();
+          alertData.type = "error";
+          alertData.msg = err.response.data.error;
+          alertData.time = 2000;
+          OpenAlert();
+          router.push("/login");
+        }
+      } else {
+        setUserRendered(true);
+        //console.log(userRendered);
+        setUser(false);
+        removeUserContext();
+        if (totalQuantity) {
+          resetCart([], 0, 0);
+        }
+      }
+    })(),
+      [token, cart];
+  });
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { mode } = useContext(ColorModeContext);
