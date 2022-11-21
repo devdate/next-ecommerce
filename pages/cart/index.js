@@ -163,7 +163,7 @@ function MyCart({ cartfromServer, error }) {
                     </Typography>
                     <IconButton
                       onClick={() =>
-                        removeItemfromCart(eachItem, eachItem.variant)
+                        removeItemfromCart(eachItem, eachItem.variant, token)
                       }
                       variant="outlined"
                       size="small"

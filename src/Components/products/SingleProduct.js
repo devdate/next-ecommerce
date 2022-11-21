@@ -113,7 +113,7 @@ export default function SingleProduct({ product, matches }) {
               />
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <IconButton
-                  onClick={() => removeItemfromCart(product, 0)}
+                  onClick={() => removeItemfromCart(product, 0, token)}
                   variant="outlined"
                   size="small"
                   p={0}

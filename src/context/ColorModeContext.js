@@ -113,7 +113,23 @@ export const ColorModeContextProvider = (props) => {
             : [...prevCart, { ...item, quantity: 1, variant }];
         });
       },
-      removeItemfromCart: (item, variant) => {
+      removeItemfromCart: async (item, variant, authtoken) => {
+        console.log(authtoken);
+        try {
+          await axios.delete(`${process.env.PUBLIC_URL}/api/cart`, {
+            data: {
+              product: item,
+              variant,
+            },
+            headers: {
+              Authorization: "Bearer " + authtoken,
+            },
+          });
+        } catch (err) {
+          console.log(err);
+          return err;
+        }
+
         setTotalQuantity((prevTotal) => prevTotal - 1);
         setTotalPrice((prevTotal) => prevTotal - item.prices[variant]);
         setCart((prevCart) => {

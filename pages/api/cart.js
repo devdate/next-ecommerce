@@ -13,6 +13,9 @@ export default async (req, res) => {
     case "PUT":
       await saveCart(req, res);
       break;
+    case "DELETE":
+      await deleteCart(req, res);
+      break;
   }
 };
 
@@ -96,6 +99,54 @@ const saveCart = async (req, res) => {
         { user: userId },
         {
           $push: { products: newProduct },
+        }
+      );
+    }
+    res.status(200).json({ message: "Product added to cart" });
+  } catch (err) {
+    res.status(401).json({ error: "You Must be Logged In" });
+    console.log(err.message);
+  }
+};
+
+const deleteCart = async (req, res) => {
+  const { authorization } = req.headers;
+  const token = authorization ? authorization.split(" ")[1] : "";
+  console.log("token", authorization);
+  if (!token) {
+    return res.status(401).json({ error: "You Must Login" });
+  }
+  try {
+    const { userId } = jwt.verify(token, process.env.JWT_SECRET);
+    //console.log("user", userId);
+    if (!userId) {
+      //return res.status(401).send('Unauthorized request');
+    }
+    const cart = await Carts.findOne({ user: userId });
+    //console.log(cart.products, req.body.product._id);
+    const productExists = cart.products.find(
+      (each) =>
+        req.body.product._id === each.product.toString() &&
+        req.body.variant === each.variant
+    );
+    console.log(productExists.quantity);
+    if (productExists.quantity > 1) {
+      // console.log(productExists);
+      // console.log("----------------------------");
+      // console.log(req.body);
+      await Carts.findOneAndUpdate(
+        {
+          user: userId,
+          "products._id": productExists._id,
+        },
+        { $inc: { "products.$.quantity": -1 } }
+      );
+    } else {
+      //console.log("else ran");
+      await Carts.findOneAndUpdate(
+        { user: userId },
+        {
+          $pull: { products: { _id: productExists._id } },
         }
       );
     }

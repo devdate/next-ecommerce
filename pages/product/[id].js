@@ -183,7 +183,7 @@ const Product = ({ game }) => {
                   }}
                 >
                   <IconButton
-                    onClick={() => removeItemfromCart(game, gameVariant)}
+                    onClick={() => removeItemfromCart(game, gameVariant, token)}
                     variant="outlined"
                     size="small"
                     p={0}
