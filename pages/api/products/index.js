@@ -4,13 +4,43 @@ import Products from "../../../src/models/ProductModel";
 dbConnect();
 
 export default async (req, res) => {
+  const { search } = req.query;
+  //console.log(search);
   switch (req.method) {
     case "GET":
-      await getAllProducts(req, res);
+      if (search) {
+        await getFilteredProducts(req, res);
+      } else {
+        await getAllProducts(req, res);
+      }
       break;
     case "POST":
       await saveProduct(req, res);
       break;
+  }
+};
+
+const getFilteredProducts = async (req, res) => {
+  try {
+    //console.log(req.query.search);
+    const products = await Products.aggregate([
+      {
+        $search: {
+          index: "default",
+          text: {
+            query: req.query.search,
+            path: {
+              wildcard: "*",
+            },
+          },
+        },
+      },
+      { $limit: 3 },
+    ]);
+    res.status(200).json(products);
+  } catch (err) {
+    res.status(500).json({ error: "Internal Server Error" });
+    console.log(err);
   }
 };
 

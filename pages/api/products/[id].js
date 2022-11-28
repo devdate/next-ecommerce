@@ -15,11 +15,21 @@ export default async (req, res) => {
 };
 
 const getProduct = async (req, res) => {
-  const product = await Products.findById(req.query.id);
-  res.status(200).json(product);
+  try {
+    const product = await Products.findById(req.query.id);
+    res.status(200).json(product);
+  } catch (err) {
+    res.status(500).json({ error: "Internal Server Error" });
+    console.log(err.response);
+  }
 };
 
 const deleteProduct = async (req, res) => {
-  await Products.findByIdAndDelete(req.query.id);
-  res.status(200).json({});
+  try {
+    await Products.findByIdAndDelete(req.query.id);
+    res.status(200).json({});
+  } catch (err) {
+    res.status(500).json({ error: "Internal Server Error" });
+    console.log(err);
+  }
 };

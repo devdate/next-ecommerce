@@ -252,14 +252,20 @@ export async function getServerSideProps(ctx) {
     res.writeHead(302, { Location: "/" });
     res.end();
   }
-
-  const res = await axios.get(`${process.env.PUBLIC_URL}/api/products`);
-  return {
-    props: {
-      productsData: res.data,
-      user,
-    },
-  };
+  try {
+    const res = await axios.get(`${process.env.PUBLIC_URL}/api/products`);
+    return {
+      props: {
+        productsData: res.data,
+        user,
+      },
+    };
+  } catch (err) {
+    console.log("catched");
+    const { res } = ctx;
+    res.writeHead(302, { Location: "/" });
+    res.end();
+  }
 }
 
 export default Admin;

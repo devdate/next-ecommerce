@@ -28,6 +28,7 @@ import { useEffect } from "react";
 import { parseCookies } from "nookies";
 import axios from "axios";
 import { useRouter } from "next/router";
+import StripeCheckout from "react-stripe-checkout";
 
 function MyCart({ cartfromServer, error }) {
   const { cart, totalPrice, addItemtoCart, removeItemfromCart, resetCart } =
@@ -59,6 +60,20 @@ function MyCart({ cartfromServer, error }) {
     }
     toggleLoading(false);
   }, []);
+
+  const handleCheckout = async (paymentInfo) => {
+    console.log(paymentInfo);
+    const res2 = await axios.post(
+      `${process.env.PUBLIC_URL}/api/payment`,
+      { paymentInfo },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    console.log(res2);
+  };
 
   return (
     <Container maxWidth="xxxl" disableGutters>
@@ -261,9 +276,20 @@ function MyCart({ cartfromServer, error }) {
               </RadioGroup>
             </FormControl>
           </Card>
-          <Button sx={{ marginTop: "16px" }} variant="contained">
-            Place Order
-          </Button>
+          <StripeCheckout
+            name="Gamerscart"
+            amount={totalPrice * 100}
+            currency="INR"
+            shippingAddress={true}
+            billingAddress={true}
+            zipCode={true}
+            stripeKey="pk_test_51M81twSBCpG8dSnfimgPuTcAQoiEKT6DUFhre02bfYJq9vYpG2aHBbsfJ6Tv6hJMSLnBacJfPJHtckVgTk3bVHnR00vVlLDtX1"
+            token={(paymentInfo) => handleCheckout(paymentInfo)}
+          >
+            <Button sx={{ marginTop: "16px" }} variant="contained">
+              Place Order
+            </Button>
+          </StripeCheckout>
         </Grid>
         <Grid
           item

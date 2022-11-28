@@ -10,6 +10,7 @@ import {
   OutlinedInput,
   Button,
   formLabelClasses,
+  Box,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -26,6 +27,8 @@ import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import axios from "axios";
+import ProductListView from "../products/ProductListView";
+import { searchHelper } from "../../util/utils";
 
 export default function AppbarHeader({ matches }) {
   //console.log(matches);
@@ -84,6 +87,10 @@ export default function AppbarHeader({ matches }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { mode } = useContext(ColorModeContext);
 
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  const [searchedProducts, setSearchedProducts] = useState([]);
+  const [searchedText, setSearchedText] = useState("");
+
   const [boxShadow, setBoxShadow] = useState("0 0 5px 10px #FFFFFF96");
   const [boxBackground, setBoxBackground] = useState("rgba(255,255,255,0.6)");
 
@@ -96,6 +103,21 @@ export default function AppbarHeader({ matches }) {
       setBoxBackground("rgba(0,0,0,0.6)");
     }
   }, [mode]);
+
+  const searchChange = async (event) => {
+    setSearchedText(event.target.value);
+    if (event.target.value.length > 1) {
+      const searchRes = await searchHelper(
+        `${process.env.PUBLIC_URL}/api/products?search=${event.target.value}`
+      );
+      //console.log(val);
+      setSearchedProducts(searchRes);
+      setShowSearchResults(searchRes.length ? true : false);
+    } else {
+      setShowSearchResults(false);
+      setSearchedProducts([]);
+    }
+  };
 
   const onSearch = (event) => {
     console.log("clicked");
@@ -159,7 +181,6 @@ export default function AppbarHeader({ matches }) {
           ></Image>
         </AppbarHeaderImage>
       </Link>
-
       <FormControl
         variant="outlined"
         sx={{
@@ -170,6 +191,12 @@ export default function AppbarHeader({ matches }) {
         }}
       >
         <OutlinedInput
+          onChange={searchChange}
+          onFocus={searchChange}
+          onBlur={() => {
+            setTimeout(() => setShowSearchResults(false), 100);
+          }}
+          value={searchedText}
           sx={{
             borderRadius: "30px",
             paddingLeft: "10px",
@@ -212,6 +239,29 @@ export default function AppbarHeader({ matches }) {
             placeholder: "Search...",
           }}
         />
+        {showSearchResults && (
+          <Box
+            onClick={() => {
+              setShowSearchResults(false);
+              setSearchedProducts([]);
+              setSearchedText("");
+            }}
+            sx={{
+              bgcolor: "background.default",
+              position: "absolute",
+              width: "100%",
+              borderRadius: "25px",
+              padding: "10px 25px",
+              border: "1px solid",
+              borderColor: "secondary.main",
+              zIndex: "999",
+            }}
+          >
+            {searchedProducts.map((eachItem) => (
+              <ProductListView key={eachItem._id} eachItem={eachItem} />
+            ))}
+          </Box>
+        )}
       </FormControl>
       <Button
         disableRipple

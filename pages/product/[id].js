@@ -317,16 +317,23 @@ const Product = ({ game }) => {
   );
 };
 
-export const getServerSideProps = async ({ params }) => {
+export const getServerSideProps = async ({ params, res }) => {
   //console.log("pppp", params);
-  const res = await axios.get(
-    `${process.env.PUBLIC_URL}/api/products/${params.id}`
-  );
-  return {
-    props: {
-      game: res.data,
-    },
-  };
+  try {
+    const res1 = await axios.get(
+      `${process.env.PUBLIC_URL}/api/products/${params.id}`
+    );
+    return {
+      props: {
+        game: res1.data,
+      },
+    };
+  } catch (err) {
+    console.log("catched");
+    //const { res } = ctx;
+    res.writeHead(302, { Location: "/" });
+    res.end();
+  }
 };
 
 export default Product;
